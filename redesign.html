@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redesigns & Optimization — BuildScale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/CSS/redesign.css">
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav>
+  <a href="index.html" class="logo">Build<span>Scale</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="about_us.html" class="active">About</a></li>
+    <li><a href="contact_us.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="fade-up">
+    <div class="breadcrumb"><a href="index.html">Home</a> › <a href="index.html#services">Services</a> › <span>Redesigns</span></div>
+    <span class="hero-eyebrow">Redesign & Optimization</span>
+    <h1>Your site is costing you <span style="color:var(--service);">customers.</span></h1>
+    <p class="hero-desc">Slow, outdated, or underperforming websites bleed revenue every day. We audit, redesign, and optimise existing sites to dramatically improve speed, UX, and conversion rates.</p>
+    <div class="hero-ctas">
+      <a href="contact-us.html" class="btn-primary">Get a Free Audit →</a>
+      <a href="#what-we-fix" class="btn-ghost">See what we fix</a>
+    </div>
+  </div>
+  <div class="fade-up" style="position:relative;transition-delay:.2s;">
+    <div class="ba-visual" id="baVisual">
+      <div class="ba-before">
+        <span class="ba-label before-l">BEFORE</span>
+        <div class="mock-page">
+          <div class="mp-nav"><div class="mp-logo-old" style="width:50px;"></div><div class="mp-nav-old"><div class="mp-n" style="width:30px;"></div><div class="mp-n" style="width:30px;"></div><div class="mp-n" style="width:30px;"></div></div></div>
+          <div class="mp-hero-old"><div class="mp-h-text" style="height:18px;background:rgba(10,10,15,.15);"></div><div class="mp-h-sub" style="height:18px;background:rgba(10,10,15,.15);"></div><div class="mp-h-sub"></div><div class="mp-h-btn"></div></div>
+          <div class="mp-cards"><div class="mp-card"></div><div class="mp-card"></div><div class="mp-card"></div></div>
+        </div>
+      </div>
+      <div class="ba-after" id="baAfter">
+        <span class="ba-label after-l">AFTER</span>
+        <div class="mock-page">
+          <div class="mp-nav" style="background:rgba(255,255,255,.05);border-radius:2px;"><div class="mp-logo-old"></div><div class="mp-nav-old"><div class="mp-n" style="width:30px;"></div><div class="mp-n" style="width:30px;"></div><div class="mp-n" style="width:55px;background:var(--service);opacity:.8;border-radius:1px;"></div></div></div>
+          <div class="mp-hero-old"><div class="mp-h-text"></div><div class="mp-h-sub"></div><div class="mp-h-btn"></div></div>
+          <div class="mp-cards"><div class="mp-card" style="background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.2);"></div><div class="mp-card" style="background:rgba(255,255,255,.06);"></div><div class="mp-card" style="background:rgba(255,255,255,.04);"></div></div>
+        </div>
+      </div>
+      <div class="ba-divider" id="baDivider">
+        <div class="ba-handle">↔</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:.8rem;letter-spacing:.05em;">← Drag to compare before & after</p>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="pain-section fade-up">
+  <div style="padding:0;">
+    <p class="section-label" style="display:flex;align-items:center;gap:.6rem;color:rgba(245,243,238,.4);"><span style="width:20px;height:1.5px;background:rgba(245,243,238,.2);display:inline-block;"></span>Signs You Need a Redesign</p>
+    <h2 style="color:var(--paper);font-size:clamp(1.8rem,3vw,2.8rem);margin-top:.5rem;">Recognise any of these?</h2>
+  </div>
+  <div class="pain-grid" style="margin-top:2.5rem;">
+    <div class="pain-card"><h3>Bounce Rate Over 70%</h3><p>Visitors land and immediately leave. Your site fails to communicate value in the first 3 seconds.</p></div>
+    <div class="pain-card"><h3>Takes 5+ Seconds to Load</h3><p>53% of users abandon a site that takes over 3 seconds. Every second is costing you customers.</p></div>
+    <div class="pain-card"><h3>Looks Broken on Mobile</h3><p>Over 60% of traffic is mobile. A non-responsive site is invisible to most of your audience.</p></div>
+    <div class="pain-card"><h3>No One Converts</h3><p>Traffic exists but enquiries, sign-ups, or purchases don't. Your CTA strategy and user flow is failing.</p></div>
+    <div class="pain-card"><h3>Embarrassing Design</h3><p>You hesitate to share your website URL because it doesn't reflect the quality of your actual business.</p></div>
+    <div class="pain-card"><h3>Google Can't Find You</h3><p>No structured data, missing meta tags, poor page speed — your SEO fundamentals need a complete overhaul.</p></div>
+  </div>
+  <div class="pain-arrow">↓ We fix all of this ↓</div>
+  <div class="fix-grid">
+    <div class="fix-card"><h3>Sticky, Engaging Experience</h3><p>Redesigned UX with clear value props, compelling copy placement, and visual hierarchy that captivates immediately.</p></div>
+    <div class="fix-card"><h3>Sub-2 Second Load Times</h3><p>Image compression, lazy loading, code splitting, CDN, and caching — we squeeze every millisecond.</p></div>
+    <div class="fix-card"><h3>Perfect on Every Device</h3><p>Mobile-first responsive design with touch-optimised interactions and tested on 20+ real devices.</p></div>
+    <div class="fix-card"><h3>Conversion Rate Optimisation</h3><p>Strategic CTA placement, trust signals, form optimisation, and user flow redesign that drives action.</p></div>
+    <div class="fix-card"><h3>A Site You're Proud to Share</h3><p>Custom, modern design that accurately represents the quality and credibility of your business.</p></div>
+    <div class="fix-card"><h3>Rank on Google</h3><p>Technical SEO overhaul, schema markup, meta optimisation, sitemap, and Core Web Vitals compliance.</p></div>
+  </div>
+</section>
+
+<!-- AUDIT PROCESS -->
+<section class="audit-section" id="what-we-fix">
+  <div class="fade-up"><p class="section-label">Our Approach</p><h2>Diagnose first. Then rebuild.</h2></div>
+  <div class="audit-timeline fade-up" style="transition-delay:.1s;">
+    <div class="at-step"><div class="at-dot"></div><div class="at-num">Step 01</div><h4>Comprehensive Audit</h4><p>We analyse speed, UX, SEO, accessibility, conversion paths, analytics data, and competitor benchmarking.</p></div>
+    <div class="at-step"><div class="at-dot"></div><div class="at-num">Step 02</div><h4>Prioritised Roadmap</h4><p>We present a prioritised list of issues ranked by impact, effort, and urgency — with clear recommendations.</p></div>
+    <div class="at-step"><div class="at-dot"></div><div class="at-num">Step 03</div><h4>Design Overhaul</h4><p>New wireframes and high-fidelity designs that address every identified problem and elevate your brand.</p></div>
+    <div class="at-step"><div class="at-dot"></div><div class="at-num">Step 04</div><h4>Build & Optimise</h4><p>Development, performance optimisation, SEO setup, testing, and a seamless migration to the new site.</p></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results-section fade-up">
+  <p class="section-label" style="color:rgba(255,255,255,.6);display:flex;align-items:center;gap:.6rem;justify-content:center;"><span style="width:20px;height:1.5px;background:rgba(255,255,255,.4);display:inline-block;"></span>Average Results After Redesign</p>
+  <div class="results-grid" style="margin-top:2rem;">
+    <div class="res-cell"><div class="res-val">+220%</div><div class="res-label">Conversion rate improvement</div></div>
+    <div class="res-cell"><div class="res-val">3.1×</div><div class="res-label">Faster page load time</div></div>
+    <div class="res-cell"><div class="res-val">-48%</div><div class="res-label">Reduction in bounce rate</div></div>
+    <div class="res-cell"><div class="res-val">+180%</div><div class="res-label">Organic search traffic</div></div>
+  </div>
+  <p class="results-disclaimer">Based on average results across 60+ redesign projects. Individual results vary.</p>
+</section>
+
+<!-- INCLUDED -->
+<section class="included-section fade-up">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:0;">
+    <div><p class="section-label">What's Covered</p><h2>A complete digital transformation</h2></div>
+    <p style="font-size:.95rem;line-height:1.7;color:#666;font-weight:300;align-self:end;">No half-measures. Every redesign project covers design, development, performance, and SEO as a complete package.</p>
+  </div>
+  <div class="inc-grid" style="margin-top:3rem;">
+    <div class="inc-col active">
+      <h3>Design & UX</h3>
+      <ul class="inc-list">
+        <li>Full UX & heuristic audit</li>
+        <li>New information architecture</li>
+        <li>Wireframes for all key pages</li>
+        <li>High-fidelity visual redesign</li>
+        <li>Brand identity alignment</li>
+        <li>Mobile-first responsive design</li>
+        <li>Accessibility improvements (WCAG)</li>
+      </ul>
+    </div>
+    <div class="inc-col">
+      <h3>Development & Performance</h3>
+      <ul class="inc-list">
+        <li>Full frontend redevelopment</li>
+        <li>Core Web Vitals optimisation</li>
+        <li>Image & asset compression</li>
+        <li>CDN & caching configuration</li>
+        <li>Technical SEO overhaul</li>
+        <li>Analytics & conversion tracking</li>
+        <li>Post-launch monitoring & support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section fade-up">
+  <div><p class="section-label">Investment</p><h2>Flat-fee redesign packages</h2></div>
+  <div class="price-cards">
+    <div class="pr-card">
+      <div class="pr-name">Express Refresh</div>
+      <div class="pr-price"><sup>$</sup>1,499</div>
+      <p class="pr-note">One-time fee</p>
+      <div class="pr-div"></div>
+      <ul class="pr-list">
+        <li>Redesign up to 5 pages</li>
+        <li>Performance optimisation</li>
+        <li>Mobile responsiveness fix</li>
+        <li>Basic SEO cleanup</li>
+        <li>10-day delivery</li>
+      </ul>
+      <a href="contact-us.html" class="pr-btn prb-border">Get Started</a>
+    </div>
+    <div class="pr-card featured">
+      <div class="pr-name">Full Redesign</div>
+      <div class="pr-price"><sup>$</sup>3,999</div>
+      <p class="pr-note">One-time fee · Most Popular</p>
+      <div class="pr-div"></div>
+      <ul class="pr-list">
+        <li>Redesign up to 15 pages</li>
+        <li>Full UX audit & strategy</li>
+        <li>Custom design system</li>
+        <li>Core Web Vitals target: 90+</li>
+        <li>Complete SEO overhaul</li>
+        <li>CRO improvements</li>
+        <li>21-day delivery</li>
+        <li>2 months support</li>
+      </ul>
+      <a href="contact-us.html" class="pr-btn prb-fill">Get Started</a>
+    </div>
+    <div class="pr-card">
+      <div class="pr-name">Platform Rebuild</div>
+      <div class="pr-price" style="font-size:2.2rem;">Custom</div>
+      <p class="pr-note">For large or complex sites</p>
+      <div class="pr-div"></div>
+      <ul class="pr-list">
+        <li>Full platform migration</li>
+        <li>CMS re-architecture</li>
+        <li>Unlimited page redesign</li>
+        <li>API & integration overhaul</li>
+        <li>Ongoing retainer option</li>
+      </ul>
+      <a href="contact-us.html" class="pr-btn prb-border">Get a Quote</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip fade-up">
+  <h2>Not sure if your site needs a full redesign? Start with a free audit.</h2>
+  <div class="cta-btns">
+    <a href="contact-us.html" class="btn-red">Get Free Audit →</a>
+    <a href="saas-website.html#pricing" class="btn-ghost2">All Plans</a>
+  </div>
+</div>
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="saas-website.html" class="logo">Build<span>Scale</span></a>
+      <p class="footer-tagline">We build websites that help small and large businesses grow — fast, beautiful, and built to last.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">𝕏</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a>
+        <a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="small_business_sites.html">Small Business Sites</a></li>
+        <li><a href="e-commerce.html">E-Commerce</a></li>
+        <li><a href="saas.html">SaaS Platforms</a></li>
+        <li><a href="enterprise.html">Enterprise</a></li>
+        <li><a href="redesign.html">Redesigns</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about_us.html">About Us</a></li>
+        <li><a href="#">Our Work</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="contact_us.html">Contact</a></li>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 BuildScale. All rights reserved.</p>
+    <p>Made with care for growing businesses.</p>
+  </div>
+</footer>
+<script src="src/Javascript/redesign.js"></script>
+</body>
+</html>

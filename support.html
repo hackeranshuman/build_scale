@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center — BuildScale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   BUILDSCALE — SUPPORT / HELP CENTER
+   Theme: Matches BuildScale design system
+   Fonts: Syne (display) + DM Sans (body)
+   Palette: --ink / --paper / --accent / --muted
+============================================= */
+
+:root {
+  --ink:    #0a0a0f;
+  --paper:  #f5f3ee;
+  --accent: #ff4d1c;
+  --accent2:#1c7aff;
+  --muted:  #8a8780;
+  --border: rgba(10,10,15,0.1);
+  --support:#0891b2; /* support page accent — teal */
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ─────────────────────────────── */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .3s, height .3s, background .3s;
+  mix-blend-mode: multiply;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: left .12s ease-out, top .12s ease-out, width .3s, height .3s;
+  opacity: .6;
+}
+
+/* ── NAV ─────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.5rem 4rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(245,243,238,0.93);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.4rem; letter-spacing: -0.04em;
+  color: var(--ink); text-decoration: none;
+}
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: .875rem; font-weight: 500;
+  color: var(--muted); text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--ink); font-weight: 600; }
+.nav-cta {
+  background: var(--ink) !important; color: var(--paper) !important;
+  padding: .6rem 1.4rem; border-radius: 2px;
+}
+.nav-cta:hover { background: var(--accent) !important; color: white !important; }
+
+/* ── HERO ────────────────────────────────── */
+.support-hero {
+  background: var(--ink);
+  padding: 9rem 4rem 5rem;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.support-hero::before {
+  content: '';
+  position: absolute; top: -30%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(8,145,178,.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.support-hero::after {
+  content: 'HELP';
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22vw; color: rgba(255,255,255,.02);
+  position: absolute; bottom: -3vw; right: -1vw;
+  line-height: 1; pointer-events: none; letter-spacing: -.07em;
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 680px; margin: 0 auto;
+  text-align: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .75rem; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--support); margin-bottom: 1.2rem;
+}
+.hero-eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--support); }
+.hero-eyebrow::after  { content: ''; width: 24px; height: 1.5px; background: var(--support); }
+.support-hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800; line-height: 1.0;
+  letter-spacing: -.04em;
+  color: var(--paper);
+  margin-bottom: 1.2rem;
+}
+.support-hero h1 span { color: var(--support); }
+.hero-sub {
+  font-size: 1.05rem; line-height: 1.7;
+  color: rgba(245,243,238,.45);
+  font-weight: 300; margin-bottom: 2.5rem;
+}
+
+/* Search bar */
+.search-wrap {
+  position: relative; max-width: 540px; margin: 0 auto 2rem;
+}
+.search-input {
+  width: 100%; padding: 1.05rem 1.2rem 1.05rem 3.2rem;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 2px; outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .95rem; color: var(--paper);
+  transition: border-color .2s, background .2s;
+}
+.search-input::placeholder { color: rgba(245,243,238,.3); }
+.search-input:focus {
+  border-color: var(--support);
+  background: rgba(255,255,255,.1);
+}
+.search-icon {
+  position: absolute; left: 1rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem; pointer-events: none;
+  color: rgba(245,243,238,.3);
+}
+.search-results-live {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: #1a1a22; border: 1px solid rgba(255,255,255,.1);
+  border-radius: 2px; z-index: 50;
+  display: none; flex-direction: column;
+}
+.search-results-live.show { display: flex; }
+.sr-item {
+  padding: .9rem 1.2rem; font-size: .875rem;
+  color: rgba(245,243,238,.6); border-bottom: 1px solid rgba(255,255,255,.06);
+  cursor: pointer; display: flex; align-items: center; gap: .8rem;
+  transition: background .15s;
+}
+.sr-item:last-child { border-bottom: none; }
+.sr-item:hover { background: rgba(255,255,255,.05); color: var(--paper); }
+.sr-tag {
+  font-size: .6rem; letter-spacing: .08em; text-transform: uppercase;
+  background: rgba(8,145,178,.2); color: var(--support);
+  padding: .15rem .5rem; border-radius: 1px; font-weight: 600;
+  flex-shrink: 0;
+}
+.popular-searches {
+  display: flex; align-items: center; gap: .6rem;
+  justify-content: center; flex-wrap: wrap;
+}
+.pop-label { font-size: .72rem; color: rgba(245,243,238,.3); letter-spacing: .06em; }
+.pop-tag {
+  font-size: .75rem; background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  color: rgba(245,243,238,.5); padding: .25rem .8rem;
+  border-radius: 1px; cursor: pointer; transition: all .2s;
+}
+.pop-tag:hover { background: rgba(255,255,255,.12); color: var(--paper); }
+
+/* ── STATUS BANNER ───────────────────────── */
+.status-banner {
+  background: rgba(34,197,94,.08);
+  border-top: 1px solid rgba(34,197,94,.15);
+  border-bottom: 1px solid rgba(34,197,94,.15);
+  padding: .8rem 4rem;
+  display: flex; align-items: center; justify-content: center; gap: .8rem;
+}
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34,197,94,.2);
+  animation: pulse-status 2s infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse-status {
+  0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+  50%      { box-shadow: 0 0 0 6px rgba(34,197,94,.08); }
+}
+.status-text {
+  font-size: .8rem; color: rgba(245,243,238,.5);
+  font-weight: 400;
+}
+.status-text strong { color: #22c55e; font-weight: 600; }
+.status-link {
+  font-size: .75rem; color: rgba(245,243,238,.3);
+  text-decoration: none; margin-left: .5rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  transition: color .2s;
+}
+.status-link:hover { color: var(--paper); }
+
+/* ── SECTION SHARED ─────────────────────── */
+.section-label {
+  font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--support); font-weight: 500; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .6rem;
+}
+.section-label::before { content: ''; width: 20px; height: 1.5px; background: var(--support); }
+h2 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.05; letter-spacing: -.04em;
+}
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── QUICK ACTIONS ───────────────────────── */
+.quick-actions {
+  padding: 6rem 4rem;
+  border-bottom: 1px solid var(--border);
+}
+.qa-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.5px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 3rem;
+}
+.qa-card {
+  background: var(--paper); padding: 2.5rem 2rem;
+  position: relative; overflow: hidden;
+  text-decoration: none; color: var(--ink);
+  transition: background .3s;
+  display: flex; flex-direction: column; gap: .8rem;
+}
+.qa-card::after {
+  content: '→';
+  position: absolute; bottom: 1.5rem; right: 1.8rem;
+  font-size: 1rem; color: var(--border);
+  transition: color .3s, transform .3s;
+}
+.qa-card:hover { background: var(--ink); }
+.qa-card:hover h3, .qa-card:hover p { color: var(--paper); }
+.qa-card:hover .qa-icon { background: rgba(8,145,178,.2); color: var(--support); }
+.qa-card:hover::after { color: var(--support); transform: translate(3px,-3px); }
+.qa-icon {
+  width: 48px; height: 48px;
+  background: rgba(8,145,178,.08);
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  transition: background .3s, color .3s;
+}
+.qa-card h3 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 1rem; letter-spacing: -.02em;
+  transition: color .3s;
+}
+.qa-card p {
+  font-size: .825rem; line-height: 1.55;
+  color: var(--muted); font-weight: 300;
+  transition: color .3s;
+}
+.qa-tag {
+  display: inline-block; margin-top: auto;
+  font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--support); font-weight: 600;
+}
+
+/* ── CATEGORIES + ARTICLES ───────────────── */
+.help-center {
+  padding: 7rem 4rem;
+  background: #f0ede6;
+  border-bottom: 1px solid var(--border);
+}
+.hc-layout {
+  display: grid; grid-template-columns: 260px 1fr;
+  gap: 3rem; margin-top: 3.5rem;
+}
+/* Sidebar */
+.hc-sidebar { position: sticky; top: 7rem; align-self: start; }
+.hc-cat-list { list-style: none; }
+.hc-cat-list li { margin-bottom: 2px; }
+.hc-cat-btn {
+  width: 100%; text-align: left;
+  padding: .85rem 1.2rem;
+  background: transparent; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: .875rem;
+  color: var(--muted); cursor: pointer; border-radius: 2px;
+  transition: background .2s, color .2s;
+  display: flex; align-items: center; gap: .8rem;
+}
+.hc-cat-btn:hover { background: rgba(10,10,15,.05); color: var(--ink); }
+.hc-cat-btn.active {
+  background: var(--ink); color: var(--paper); font-weight: 500;
+}
+.hc-cat-btn .cat-count {
+  margin-left: auto; font-size: .65rem;
+  background: rgba(10,10,15,.1); color: var(--muted);
+  padding: .1rem .5rem; border-radius: 8px;
+}
+.hc-cat-btn.active .cat-count { background: rgba(255,255,255,.15); color: rgba(245,243,238,.6); }
+
+/* Article panels */
+.hc-panel { display: none; }
+.hc-panel.active { display: block; animation: panelIn .25s ease-out; }
+@keyframes panelIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+.panel-header { margin-bottom: 1.5rem; }
+.panel-header h3 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 1.4rem; letter-spacing: -.03em; margin-bottom: .4rem;
+}
+.panel-header p { font-size: .875rem; color: var(--muted); font-weight: 300; }
+.articles-list { display: flex; flex-direction: column; gap: 2px; }
+.article-item {
+  background: var(--paper); padding: 1.3rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  text-decoration: none; color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: background .2s, border-color .2s;
+  position: relative;
+}
+.article-item:hover { background: var(--ink); border-color: var(--ink); }
+.article-item:hover .art-title, .article-item:hover .art-meta { color: var(--paper); }
+.article-item:hover .art-icon { background: rgba(8,145,178,.2); color: var(--support); }
+.article-item:hover .art-arrow { opacity: 1; color: var(--support); }
+.art-icon {
+  width: 36px; height: 36px; border-radius: 2px;
+  background: rgba(10,10,15,.05);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; flex-shrink: 0;
+  transition: background .2s, color .2s;
+}
+.art-content { flex: 1; min-width: 0; }
+.art-title { font-size: .9rem; font-weight: 500; margin-bottom: .2rem; transition: color .2s; }
+.art-meta { font-size: .75rem; color: var(--muted); font-weight: 300; transition: color .2s; }
+.art-badge {
+  font-size: .6rem; letter-spacing: .07em; text-transform: uppercase;
+  padding: .2rem .5rem; border-radius: 1px; font-weight: 700; flex-shrink: 0;
+}
+.art-badge.new { background: rgba(34,197,94,.12); color: #16a34a; }
+.art-badge.popular { background: rgba(255,77,28,.1); color: var(--accent); }
+.art-badge.updated { background: rgba(8,145,178,.1); color: var(--support); }
+.art-arrow { font-size: .8rem; color: var(--muted); opacity: .4; flex-shrink: 0; transition: opacity .2s, color .2s; }
+
+/* ── TICKET FORM ─────────────────────────── */
+.ticket-section {
+  padding: 7rem 4rem;
+  border-bottom: 1px solid var(--border);
+}
+.ticket-layout {
+  display: grid; grid-template-columns: 1fr 1.6fr;
+  gap: 5rem; align-items: start; margin-top: 3.5rem;
+}
+.ticket-info h3 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 1.2rem; margin-bottom: .8rem; letter-spacing: -.02em;
+}
+.ticket-info p {
+  font-size: .9rem; line-height: 1.7; color: var(--muted);
+  font-weight: 300; margin-bottom: 2rem;
+}
+.response-times { display: flex; flex-direction: column; gap: 0; }
+.rt-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .9rem 0; border-bottom: 1px solid var(--border);
+}
+.rt-row:last-child { border-bottom: none; }
+.rt-plan { font-size: .85rem; font-weight: 500; display: flex; align-items: center; gap: .5rem; }
+.rt-dot { width: 6px; height: 6px; border-radius: 50%; }
+.rt-dot.starter { background: var(--muted); }
+.rt-dot.growth  { background: var(--support); }
+.rt-dot.ent     { background: var(--accent); }
+.rt-time { font-size: .8rem; color: var(--muted); font-weight: 300; }
+.rt-time strong { color: var(--ink); font-weight: 600; }
+
+/* Ticket form */
+.ticket-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.field-group { display: flex; flex-direction: column; gap: .4rem; }
+.field-label {
+  font-size: .72rem; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500;
+}
+.field-input, .field-select, .field-textarea {
+  padding: .85rem 1rem;
+  border: 1px solid var(--border); background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: .9rem;
+  color: var(--ink); border-radius: 2px; outline: none;
+  transition: border-color .2s;
+}
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color: var(--support);
+}
+.field-input::placeholder, .field-textarea::placeholder { color: var(--muted); }
+.field-select { cursor: pointer; color: var(--ink); }
+.field-select option { font-family: 'DM Sans', sans-serif; }
+.field-textarea { resize: vertical; font-family: inherit; }
+/* Priority picker */
+.priority-group { display: flex; gap: .6rem; }
+.priority-opt {
+  flex: 1; padding: .7rem .5rem; text-align: center;
+  border: 1.5px solid var(--border); border-radius: 2px;
+  font-size: .75rem; font-weight: 500; cursor: pointer;
+  transition: all .2s; color: var(--muted);
+}
+.priority-opt:hover { border-color: var(--ink); color: var(--ink); }
+.priority-opt.selected-low    { border-color: #22c55e; color: #16a34a; background: rgba(34,197,94,.07); }
+.priority-opt.selected-med    { border-color: var(--support); color: var(--support); background: rgba(8,145,178,.07); }
+.priority-opt.selected-high   { border-color: var(--accent); color: var(--accent); background: rgba(255,77,28,.07); }
+.priority-opt.selected-urgent { border-color: #dc2626; color: #dc2626; background: rgba(220,38,38,.07); }
+/* File upload */
+.upload-zone {
+  border: 1.5px dashed var(--border); border-radius: 2px;
+  padding: 1.5rem; text-align: center;
+  cursor: pointer; transition: border-color .2s, background .2s;
+}
+.upload-zone:hover { border-color: var(--support); background: rgba(8,145,178,.03); }
+.upload-zone-text { font-size: .8rem; color: var(--muted); font-weight: 300; }
+.upload-zone-text strong { color: var(--ink); font-weight: 500; }
+.submit-ticket {
+  background: var(--ink); color: var(--paper);
+  border: none; padding: 1rem;
+  font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 500;
+  border-radius: 2px; cursor: pointer;
+  transition: background .2s; letter-spacing: .02em;
+}
+.submit-ticket:hover { background: var(--support); }
+/* Ticket Success */
+.ticket-success {
+  display: none; text-align: center; padding: 3rem 2rem;
+  background: rgba(34,197,94,.04); border: 1px solid rgba(34,197,94,.15);
+  border-radius: 2px;
+}
+.ticket-success.show { display: block; animation: fadeUp .4s ease-out; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.ts-icon { font-size: 3rem; margin-bottom: 1.2rem; }
+.ts-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: .6rem; letter-spacing: -.03em; }
+.ts-msg { font-size: .9rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+.ts-ticket-id { margin-top: 1.2rem; font-size: .8rem; background: rgba(34,197,94,.1); display: inline-block; padding: .4rem 1rem; border-radius: 1px; color: #16a34a; font-weight: 600; letter-spacing: .06em; }
+
+/* ── LIVE CHAT WIDGET ─────────────────────── */
+.chat-section {
+  padding: 6rem 4rem;
+  background: var(--ink); color: var(--paper);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.chat-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+.chat-section .section-label { color: var(--support); }
+.chat-section .section-label::before { background: var(--support); }
+.chat-section h2 { color: var(--paper); font-size: clamp(1.8rem, 3vw, 2.8rem); margin-bottom: 1.2rem; }
+.chat-section p { font-size: .95rem; line-height: 1.75; color: rgba(245,243,238,.45); font-weight: 300; margin-bottom: 2rem; }
+.chat-availability { display: flex; flex-direction: column; gap: .8rem; margin-bottom: 2.5rem; }
+.ca-row {
+  display: flex; align-items: center; gap: .8rem;
+  font-size: .85rem; color: rgba(245,243,238,.55);
+}
+.ca-row .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ca-row .dot.on  { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.15); }
+.ca-row .dot.off { background: rgba(255,255,255,.15); }
+.chat-btns { display: flex; gap: .8rem; flex-wrap: wrap; }
+.btn-chat {
+  background: var(--support); color: white;
+  padding: .9rem 2rem; border-radius: 2px;
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .2s; display: inline-flex; align-items: center; gap: .5rem;
+}
+.btn-chat:hover { background: white; color: var(--support); }
+.btn-chat-outline {
+  border: 1.5px solid rgba(255,255,255,.15); color: rgba(245,243,238,.7);
+  padding: .85rem 1.8rem; border-radius: 2px;
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .2s;
+}
+.btn-chat-outline:hover { border-color: rgba(255,255,255,.4); color: white; }
+/* Chat window mock */
+.chat-mock {
+  background: #111118; border-radius: 6px;
+  overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.4);
+}
+.chat-mock-header {
+  background: var(--support); padding: 1rem 1.4rem;
+  display: flex; align-items: center; gap: .8rem;
+}
+.chat-mock-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem;
+}
+.chat-mock-info { flex: 1; }
+.chat-mock-name { font-weight: 600; font-size: .85rem; color: white; }
+.chat-mock-status { font-size: .7rem; color: rgba(255,255,255,.65); display: flex; align-items: center; gap: .3rem; }
+.chat-mock-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; display: inline-block; }
+.chat-mock-body { padding: 1.2rem; display: flex; flex-direction: column; gap: .8rem; min-height: 240px; }
+.msg { max-width: 75%; padding: .7rem 1rem; border-radius: 2px; font-size: .78rem; line-height: 1.5; }
+.msg.agent { background: #1e1e2a; color: rgba(245,243,238,.7); align-self: flex-start; }
+.msg.user  { background: var(--support); color: white; align-self: flex-end; }
+.msg-time  { font-size: .6rem; color: rgba(245,243,238,.2); margin-top: .3rem; text-align: right; }
+.typing-indicator {
+  display: flex; align-items: center; gap: 4px;
+  background: #1e1e2a; padding: .7rem 1rem; border-radius: 2px;
+  width: fit-content; align-self: flex-start;
+}
+.typing-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(245,243,238,.3);
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: .2s; }
+.typing-dot:nth-child(3) { animation-delay: .4s; }
+@keyframes typingBounce {
+  0%,60%,100% { transform: translateY(0); }
+  30%          { transform: translateY(-5px); background: var(--support); }
+}
+.chat-mock-input {
+  padding: .8rem 1.2rem; border-top: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center; gap: .6rem;
+}
+.cmi-field {
+  flex: 1; background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 1px; padding: .55rem .8rem;
+  font-size: .78rem; color: rgba(245,243,238,.4);
+  pointer-events: none;
+}
+.cmi-send {
+  width: 30px; height: 30px; background: var(--support);
+  border-radius: 1px; display: flex; align-items: center;
+  justify-content: center; font-size: .75rem; color: white;
+  flex-shrink: 0;
+}
+
+/* ── FAQ ─────────────────────────────────── */
+.faq-section {
+  padding: 7rem 4rem;
+  border-bottom: 1px solid var(--border);
+}
+.faq-layout {
+  display: grid; grid-template-columns: 280px 1fr;
+  gap: 4rem; margin-top: 3.5rem;
+}
+.faq-topics { position: sticky; top: 7rem; align-self: start; }
+.faq-topics h4 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 1rem; color: var(--muted);
+}
+.faq-topic-btn {
+  display: block; width: 100%; text-align: left;
+  padding: .65rem .8rem; background: transparent; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: .85rem;
+  color: var(--muted); cursor: pointer; border-radius: 2px;
+  transition: all .2s; margin-bottom: 2px;
+}
+.faq-topic-btn:hover  { background: rgba(10,10,15,.05); color: var(--ink); }
+.faq-topic-btn.active { background: var(--ink); color: var(--paper); font-weight: 500; }
+.faq-main { display: flex; flex-direction: column; gap: 2px; }
+.faq-item {
+  border: 1px solid var(--border); border-radius: 2px;
+  overflow: hidden; transition: border-color .2s;
+}
+.faq-item.open { border-color: var(--support); }
+.faq-q {
+  padding: 1.3rem 1.5rem; cursor: pointer;
+  display: flex; align-items: flex-start; gap: 1rem;
+  font-size: .9rem; font-weight: 500;
+  user-select: none; transition: background .2s;
+}
+.faq-q:hover { background: rgba(10,10,15,.03); }
+.faq-item.open .faq-q { background: rgba(8,145,178,.04); }
+.faq-toggle {
+  width: 22px; height: 22px; border: 1.5px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; flex-shrink: 0; margin-top: .05rem;
+  transition: all .3s; color: var(--muted);
+}
+.faq-item.open .faq-toggle {
+  background: var(--support); border-color: var(--support);
+  color: white; transform: rotate(45deg);
+}
+.faq-a {
+  font-size: .875rem; line-height: 1.7; color: var(--muted);
+  font-weight: 300; max-height: 0; overflow: hidden;
+  transition: max-height .4s ease, padding .3s;
+  padding: 0 1.5rem;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 1.5rem 1.5rem; }
+.faq-a a { color: var(--support); text-decoration: none; border-bottom: 1px solid rgba(8,145,178,.3); }
+
+/* ── CONTACT CHANNELS ─────────────────────── */
+.channels-section {
+  padding: 6rem 4rem;
+  background: #f0ede6;
+  border-bottom: 1px solid var(--border);
+}
+.channels-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 3rem;
+}
+.channel-card {
+  background: #f0ede6; padding: 3rem 2.5rem;
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.channel-card:hover { background: var(--paper); }
+.channel-card::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--support);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.channel-card:hover::before { transform: scaleX(1); }
+.channel-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+.channel-card h3 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 1.05rem; margin-bottom: .5rem; letter-spacing: -.02em;
+}
+.channel-card p {
+  font-size: .85rem; line-height: 1.6; color: var(--muted);
+  font-weight: 300; margin-bottom: 1.5rem;
+}
+.channel-detail {
+  font-size: .8rem; color: var(--ink); font-weight: 500;
+  display: flex; align-items: center; gap: .4rem;
+}
+.channel-detail::before { content: '→'; color: var(--support); font-size: .75rem; }
+.channel-avail {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  font-size: .6rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: .2rem .6rem; border-radius: 1px; font-weight: 700;
+}
+.channel-avail.online { background: rgba(34,197,94,.12); color: #16a34a; }
+.channel-avail.async  { background: rgba(8,145,178,.1);  color: var(--support); }
+
+/* ── SYSTEM STATUS ───────────────────────── */
+.status-section {
+  padding: 6rem 4rem;
+  border-bottom: 1px solid var(--border);
+}
+.status-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; margin-top: 3.5rem;
+}
+.status-services { display: flex; flex-direction: column; gap: 2px; }
+.ss-row {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem; background: var(--paper);
+  border: 1px solid var(--border); border-radius: 2px;
+  transition: border-color .2s;
+}
+.ss-row:hover { border-color: var(--support); }
+.ss-name { font-size: .875rem; font-weight: 500; flex: 1; }
+.ss-uptime { font-size: .75rem; color: var(--muted); font-weight: 300; margin-right: .5rem; }
+.ss-status {
+  font-size: .65rem; letter-spacing: .07em; text-transform: uppercase;
+  padding: .2rem .6rem; border-radius: 1px; font-weight: 700; flex-shrink: 0;
+}
+.ss-status.operational { background: rgba(34,197,94,.1); color: #16a34a; }
+.ss-status.degraded    { background: rgba(245,158,11,.1); color: #d97706; }
+.ss-status.outage      { background: rgba(220,38,38,.1);  color: #dc2626; }
+/* Uptime bars */
+.uptime-chart { display: flex; flex-direction: column; gap: 1.5rem; padding: 2rem; background: var(--ink); border-radius: 2px; }
+.uc-label {
+  font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(245,243,238,.4); margin-bottom: .8rem;
+}
+.uc-bars { display: flex; gap: 2px; align-items: flex-end; height: 60px; }
+.uc-bar {
+  flex: 1; border-radius: 1px;
+  background: rgba(34,197,94,.5);
+  min-height: 4px; transition: background .2s;
+}
+.uc-bar:hover { background: #22c55e; }
+.uc-bar.incident { background: rgba(245,158,11,.5); }
+.uc-bar.incident:hover { background: #f59e0b; }
+.uc-footer {
+  display: flex; justify-content: space-between;
+  font-size: .7rem; color: rgba(245,243,238,.25);
+  margin-top: .5rem;
+}
+
+/* ── CTA STRIP ───────────────────────────── */
+.cta-strip {
+  padding: 6rem 4rem;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 3rem; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+.cta-strip h2 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  letter-spacing: -.04em; line-height: 1.1; max-width: 560px;
+}
+.cta-btns { display: flex; gap: 1rem; flex-shrink: 0; }
+.btn-fill {
+  background: var(--support); color: white;
+  padding: .9rem 2rem; border-radius: 2px;
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .2s;
+}
+.btn-fill:hover { background: var(--ink); }
+.btn-outline {
+  border: 1.5px solid var(--border); color: var(--ink);
+  padding: .85rem 1.8rem; border-radius: 2px;
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .2s;
+}
+.btn-outline:hover { border-color: var(--support); color: var(--support); }
+
+/* ── FOOTER ──────────────────────────────── */
+footer {
+  background: var(--ink); color: rgba(245,243,238,.5);
+  padding: 5rem 4rem 3rem;
+}
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; margin-bottom: 4rem;
+}
+.footer-brand .logo { color: var(--paper); display: block; margin-bottom: 1rem; }
+.footer-tagline { font-size: .875rem; line-height: 1.6; font-weight: 300; max-width: 260px; margin-bottom: 1.5rem; }
+.footer-socials { display: flex; gap: .6rem; }
+.social-btn {
+  width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.1);
+  border-radius: 2px; display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; color: rgba(245,243,238,.4); text-decoration: none;
+  transition: all .2s;
+}
+.social-btn:hover { border-color: var(--accent); color: var(--accent); }
+.footer-col h4 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--paper); margin-bottom: 1.2rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: .6rem; }
+.footer-col ul li a {
+  font-size: .875rem; color: rgba(245,243,238,.4);
+  text-decoration: none; font-weight: 300; transition: color .2s;
+}
+.footer-col ul li a:hover { color: var(--paper); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding-top: 2rem; display: flex;
+  justify-content: space-between; align-items: center;
+}
+.footer-bottom p { font-size: .8rem; }
+
+/* ── FLOATING CHAT BUBBLE ────────────────── */
+.chat-fab {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--support); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; cursor: pointer; box-shadow: 0 8px 24px rgba(8,145,178,.4);
+  transition: transform .3s, box-shadow .3s;
+  border: none;
+}
+.chat-fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(8,145,178,.5); }
+.chat-fab-badge {
+  position: absolute; top: -2px; right: -2px;
+  width: 18px; height: 18px; background: var(--accent);
+  border-radius: 50%; border: 2px solid var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .55rem; font-weight: 700; color: white;
+}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 1.2rem 2rem; }
+  .nav-links { display: none; }
+  .support-hero { padding: 8rem 2rem 4rem; }
+  .quick-actions, .help-center, .ticket-section,
+  .chat-section, .faq-section, .channels-section,
+  .status-section, .cta-strip { padding: 4rem 2rem; }
+  .qa-grid, .channels-grid { grid-template-columns: 1fr 1fr; }
+  .hc-layout, .ticket-layout, .chat-layout,
+  .faq-layout, .status-grid { grid-template-columns: 1fr; }
+  .hc-sidebar, .faq-topics { position: relative; top: 0; }
+  .hc-cat-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+  .hc-cat-list li { flex: none; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .form-row-2 { grid-template-columns: 1fr; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ═══════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav>
+  <a href="saas-website.html" class="logo">Build<span>Scale</span></a>
+  <ul class="nav-links">
+    <li><a href="saas-website.html#services">Services</a></li>
+    <li><a href="saas-website.html#pricing">Pricing</a></li>
+    <li><a href="about-us.html">About</a></li>
+    <li><a href="support.html" class="active">Support</a></li>
+    <li><a href="contact-us.html" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HERO — DARK WITH SEARCH
+════════════════════════════════════════ -->
+<section class="support-hero">
+  <div class="hero-inner fade-up">
+    <h1>How can we <span>help you</span> today?</h1>
+    <p class="hero-sub">Search our knowledge base, submit a ticket, or chat with our team. We're here to make sure your project runs smoothly.</p>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="Search for help… e.g. 'how to update my site'"
+        autocomplete="off"
+      >
+      <div class="search-results-live" id="searchResults"></div>
+    </div>
+
+    <div class="popular-searches">
+      <span class="pop-label">Popular:</span>
+      <span class="pop-tag" onclick="fillSearch('Update website content')">Update website content</span>
+      <span class="pop-tag" onclick="fillSearch('Connect custom domain')">Custom domain</span>
+      <span class="pop-tag" onclick="fillSearch('Billing and invoices')">Billing & invoices</span>
+      <span class="pop-tag" onclick="fillSearch('Request revisions')">Request revisions</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STATUS BANNER
+════════════════════════════════════════ -->
+<div class="status-banner fade-up">
+  <div class="status-dot"></div>
+  <p class="status-text"><strong>All systems operational</strong> — No incidents reported in the last 30 days.</p>
+  <a href="#system-status" class="status-link">View status page →</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     QUICK ACTIONS
+════════════════════════════════════════ -->
+<section class="quick-actions fade-up">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:0;">
+    <div>
+      <p class="section-label">Quick Actions</p>
+      <h2>What do you need help with?</h2>
+    </div>
+    <p style="font-size:.95rem;line-height:1.7;color:#666;font-weight:300;align-self:end;">Jump directly to the most common support tasks — no digging required.</p>
+  </div>
+  <div class="qa-grid">
+    <a href="#submit-ticket" class="qa-card">
+      <div class="qa-icon">🎫</div>
+      <h3>Submit a Ticket</h3>
+      <p>Report a bug, request a change, or raise any issue. We'll respond based on your plan's SLA.</p>
+      <span class="qa-tag">Response within 24hrs</span>
+    </a>
+    <a href="#help-center" class="qa-card">
+      <div class="qa-icon">📖</div>
+      <h3>Browse Help Articles</h3>
+      <p>Step-by-step guides, how-tos, and answers to the most common questions about our services.</p>
+      <span class="qa-tag">60+ articles</span>
+    </a>
+    <a href="#live-chat" class="qa-card">
+      <div class="qa-icon">💬</div>
+      <h3>Start Live Chat</h3>
+      <p>Get instant help from a real team member. Available Monday–Saturday during office hours.</p>
+      <span class="qa-tag">Online now</span>
+    </a>
+    <a href="#faq" class="qa-card">
+      <div class="qa-icon">❓</div>
+      <h3>FAQs</h3>
+      <p>Quick answers to the questions we hear most. Covers billing, timelines, revisions, and more.</p>
+      <span class="qa-tag">24 questions</span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     HELP CENTER — CATEGORIES + ARTICLES
+════════════════════════════════════════ -->
+<section class="help-center fade-up" id="help-center">
+  <p class="section-label">Knowledge Base</p>
+  <h2>Browse help articles by topic</h2>
+
+  <div class="hc-layout">
+    <!-- Sidebar -->
+    <nav class="hc-sidebar" aria-label="Help categories">
+      <ul class="hc-cat-list" id="catList">
+        <li><button class="hc-cat-btn active" data-panel="getting-started" onclick="switchPanel(this)">🚀 <span>Getting Started</span> <span class="cat-count">8</span></button></li>
+        <li><button class="hc-cat-btn" data-panel="billing" onclick="switchPanel(this)">💳 <span>Billing & Payments</span> <span class="cat-count">7</span></button></li>
+        <li><button class="hc-cat-btn" data-panel="revisions" onclick="switchPanel(this)">✏️ <span>Revisions & Updates</span> <span class="cat-count">6</span></button></li>
+        <li><button class="hc-cat-btn" data-panel="domains" onclick="switchPanel(this)">🌐 <span>Domains & Hosting</span> <span class="cat-count">9</span></button></li>
+        <li><button class="hc-cat-btn" data-panel="project" onclick="switchPanel(this)">📋 <span>Project Management</span> <span class="cat-count">5</span></button></li>
+        <li><button class="hc-cat-btn" data-panel="seo" onclick="switchPanel(this)">🔍 <span>SEO & Analytics</span> <span class="cat-count">7</span></button></li>
+        <li><button class="hc-cat-btn" data-panel="account" onclick="switchPanel(this)">👤 <span>Account & Security</span> <span class="cat-count">4</span></button></li>
+      </ul>
+    </nav>
+
+    <!-- Article panels -->
+    <div class="hc-panels">
+
+      <!-- Getting Started -->
+      <div class="hc-panel active" id="panel-getting-started">
+        <div class="panel-header">
+          <h3>🚀 Getting Started</h3>
+          <p>Everything you need to kick off your BuildScale project.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">📝</div><div class="art-content"><div class="art-title">How to complete your project brief form</div><div class="art-meta">5 min read · 2,400 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🗓️</div><div class="art-content"><div class="art-title">Understanding your project timeline and milestones</div><div class="art-meta">4 min read · 1,800 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">👥</div><div class="art-content"><div class="art-title">Who will be working on my project?</div><div class="art-meta">3 min read · 1,200 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📂</div><div class="art-content"><div class="art-title">How to share brand assets and design files</div><div class="art-meta">6 min read · 980 views</div></div><span class="art-badge new">New</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">💬</div><div class="art-content"><div class="art-title">Setting up your client communication channel</div><div class="art-meta">3 min read · 760 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">✅</div><div class="art-content"><div class="art-title">The onboarding checklist — what to prepare</div><div class="art-meta">7 min read · 3,100 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔐</div><div class="art-content"><div class="art-title">How to grant access to your existing platforms</div><div class="art-meta">5 min read · 620 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🎯</div><div class="art-content"><div class="art-title">Defining your goals and success metrics</div><div class="art-meta">8 min read · 540 views</div></div><span class="art-badge new">New</span><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="hc-panel" id="panel-billing">
+        <div class="panel-header">
+          <h3>💳 Billing & Payments</h3>
+          <p>Invoices, payment methods, refunds, and subscription details.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">🧾</div><div class="art-content"><div class="art-title">How and when you'll be invoiced</div><div class="art-meta">4 min read · 2,900 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">💳</div><div class="art-content"><div class="art-title">Accepted payment methods (card, UPI, bank transfer)</div><div class="art-meta">3 min read · 1,700 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📄</div><div class="art-content"><div class="art-title">Downloading and reading your invoice</div><div class="art-meta">2 min read · 1,100 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔄</div><div class="art-content"><div class="art-title">Requesting a refund — policy and process</div><div class="art-meta">5 min read · 870 views</div></div><span class="art-badge updated">Updated</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">⬆️</div><div class="art-content"><div class="art-title">Upgrading your plan mid-project</div><div class="art-meta">4 min read · 640 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🌍</div><div class="art-content"><div class="art-title">Currency, tax, and international payments</div><div class="art-meta">3 min read · 490 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📊</div><div class="art-content"><div class="art-title">Understanding the 50/50 payment structure</div><div class="art-meta">3 min read · 2,300 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- Revisions -->
+      <div class="hc-panel" id="panel-revisions">
+        <div class="panel-header">
+          <h3>✏️ Revisions & Updates</h3>
+          <p>How to request changes, what's included, and post-launch edits.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">🔁</div><div class="art-content"><div class="art-title">How many revisions are included in my plan?</div><div class="art-meta">3 min read · 3,200 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📝</div><div class="art-content"><div class="art-title">How to submit a revision request clearly</div><div class="art-meta">5 min read · 1,900 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">⏱️</div><div class="art-content"><div class="art-title">Revision turnaround times by plan</div><div class="art-meta">2 min read · 1,400 views</div></div><span class="art-badge updated">Updated</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">➕</div><div class="art-content"><div class="art-title">Requesting additional pages or features post-launch</div><div class="art-meta">4 min read · 860 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🖼️</div><div class="art-content"><div class="art-title">Updating images, text, and content yourself</div><div class="art-meta">6 min read · 720 views</div></div><span class="art-badge new">New</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔒</div><div class="art-content"><div class="art-title">What counts as a "major" vs "minor" revision</div><div class="art-meta">3 min read · 1,050 views</div></div><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- Domains -->
+      <div class="hc-panel" id="panel-domains">
+        <div class="panel-header">
+          <h3>🌐 Domains & Hosting</h3>
+          <p>Setting up your domain, SSL, and hosting environment.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">🌐</div><div class="art-content"><div class="art-title">How to connect your custom domain</div><div class="art-meta">7 min read · 4,100 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔒</div><div class="art-content"><div class="art-title">Setting up your SSL certificate</div><div class="art-meta">5 min read · 2,600 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">⚡</div><div class="art-content"><div class="art-title">Recommended hosting providers by project type</div><div class="art-meta">6 min read · 1,800 views</div></div><span class="art-badge updated">Updated</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📧</div><div class="art-content"><div class="art-title">Setting up a professional email with your domain</div><div class="art-meta">8 min read · 2,100 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔄</div><div class="art-content"><div class="art-title">DNS records — what they are and how to set them</div><div class="art-meta">9 min read · 1,200 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📦</div><div class="art-content"><div class="art-title">Setting up automatic backups</div><div class="art-meta">4 min read · 780 views</div></div><span class="art-badge new">New</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🚀</div><div class="art-content"><div class="art-title">Deploying to Vercel, Netlify, or cPanel</div><div class="art-meta">10 min read · 960 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🛡️</div><div class="art-content"><div class="art-title">Security headers and best practices</div><div class="art-meta">6 min read · 550 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔁</div><div class="art-content"><div class="art-title">301 redirects and migrating from an old site</div><div class="art-meta">5 min read · 690 views</div></div><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- Project Management -->
+      <div class="hc-panel" id="panel-project">
+        <div class="panel-header">
+          <h3>📋 Project Management</h3>
+          <p>How we manage your project from kickoff to delivery.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">📅</div><div class="art-content"><div class="art-title">How to read and use your project timeline</div><div class="art-meta">5 min read · 2,100 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">💬</div><div class="art-content"><div class="art-title">Communication channels — Slack, email, or calls?</div><div class="art-meta">3 min read · 1,300 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">⚠️</div><div class="art-content"><div class="art-title">What happens if there are project delays?</div><div class="art-meta">4 min read · 980 views</div></div><span class="art-badge updated">Updated</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔀</div><div class="art-content"><div class="art-title">Requesting scope changes mid-project</div><div class="art-meta">5 min read · 870 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🚢</div><div class="art-content"><div class="art-title">The launch checklist — what happens on go-live day</div><div class="art-meta">6 min read · 1,600 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- SEO -->
+      <div class="hc-panel" id="panel-seo">
+        <div class="panel-header">
+          <h3>🔍 SEO & Analytics</h3>
+          <p>Google ranking, tracking setup, and performance reporting.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">📊</div><div class="art-content"><div class="art-title">Setting up Google Analytics 4 on your site</div><div class="art-meta">7 min read · 3,400 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🗺️</div><div class="art-content"><div class="art-title">How to submit your sitemap to Google Search Console</div><div class="art-meta">5 min read · 2,800 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">⚡</div><div class="art-content"><div class="art-title">Improving your Core Web Vitals score</div><div class="art-meta">9 min read · 1,600 views</div></div><span class="art-badge new">New</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🏷️</div><div class="art-content"><div class="art-title">Understanding meta titles, descriptions, and OG tags</div><div class="art-meta">6 min read · 1,200 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📍</div><div class="art-content"><div class="art-title">Local SEO — setting up Google Business Profile</div><div class="art-meta">8 min read · 2,200 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔗</div><div class="art-content"><div class="art-title">Building backlinks — beginner's guide</div><div class="art-meta">10 min read · 890 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">📈</div><div class="art-content"><div class="art-title">Reading your monthly performance report</div><div class="art-meta">5 min read · 760 views</div></div><span class="art-badge updated">Updated</span><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div class="hc-panel" id="panel-account">
+        <div class="panel-header">
+          <h3>👤 Account & Security</h3>
+          <p>Manage your BuildScale account, team access, and data.</p>
+        </div>
+        <div class="articles-list">
+          <a href="#" class="article-item"><div class="art-icon">👤</div><div class="art-content"><div class="art-title">Updating your account profile and contact details</div><div class="art-meta">2 min read · 840 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🔑</div><div class="art-content"><div class="art-title">Resetting your password and 2FA setup</div><div class="art-meta">3 min read · 1,100 views</div></div><span class="art-badge popular">Popular</span><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">👥</div><div class="art-content"><div class="art-title">Adding team members to your project</div><div class="art-meta">4 min read · 720 views</div></div><span class="art-arrow">→</span></a>
+          <a href="#" class="article-item"><div class="art-icon">🗑️</div><div class="art-content"><div class="art-title">Requesting data deletion or account closure</div><div class="art-meta">3 min read · 390 views</div></div><span class="art-badge updated">Updated</span><span class="art-arrow">→</span></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SUBMIT A TICKET
+════════════════════════════════════════ -->
+<section class="ticket-section fade-up" id="submit-ticket">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:0;">
+    <div>
+      <p class="section-label">Submit a Ticket</p>
+      <h2>Can't find the answer? We'll fix it.</h2>
+    </div>
+    <p style="font-size:.95rem;line-height:1.7;color:#666;font-weight:300;align-self:end;">
+      Every ticket is read by a real person. We'll get back to you with a clear answer — not a copy-paste response.
+    </p>
+  </div>
+
+  <div class="ticket-layout">
+    <!-- Info + response times -->
+    <div class="ticket-info">
+      <h3>Response times by plan</h3>
+      <p>We prioritise tickets based on your plan and the urgency you select. Critical issues are always escalated regardless of plan.</p>
+      <div class="response-times">
+        <div class="rt-row">
+          <span class="rt-plan"><span class="rt-dot starter"></span>Starter</span>
+          <span class="rt-time">Within <strong>48 hours</strong></span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-plan"><span class="rt-dot growth"></span>Growth</span>
+          <span class="rt-time">Within <strong>24 hours</strong></span>
+        </div>
+        <div class="rt-row">
+          <span class="rt-plan"><span class="rt-dot ent"></span>Enterprise</span>
+          <span class="rt-time">Within <strong>2 hours</strong> (P1)</span>
+        </div>
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:1.5rem;line-height:1.6;font-weight:300;">
+        🕘 Our support team operates Mon–Fri 9am–7pm IST.<br>
+        Emergency issues outside hours are handled by on-call.
+      </p>
+    </div>
+
+    <!-- Ticket form -->
+    <div>
+      <form class="ticket-form" id="ticketForm">
+        <div class="form-row-2">
+          <div class="field-group">
+            <label class="field-label">Your Name</label>
+            <input type="text" class="field-input" placeholder="Arjun Mehta" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email Address</label>
+            <input type="email" class="field-input" placeholder="arjun@company.com" required>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Subject</label>
+          <input type="text" class="field-input" placeholder="Brief description of your issue">
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label class="field-label">Category</label>
+            <select class="field-select field-input">
+              <option value="" disabled selected>Select a category</option>
+              <option>Bug / Something is broken</option>
+              <option>Content update request</option>
+              <option>Design revision</option>
+              <option>Domain / Hosting issue</option>
+              <option>Billing question</option>
+              <option>Feature request</option>
+              <option>General question</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Your Plan</label>
+            <select class="field-select field-input">
+              <option value="" disabled selected>Select your plan</option>
+              <option>Starter ($999)</option>
+              <option>Growth ($2,999)</option>
+              <option>Enterprise (Custom)</option>
+              <option>I don't know</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Priority</label>
+          <div class="priority-group">
+            <div class="priority-opt" onclick="selectPriority(this,'selected-low')">🟢 Low</div>
+            <div class="priority-opt" onclick="selectPriority(this,'selected-med')">🔵 Medium</div>
+            <div class="priority-opt" onclick="selectPriority(this,'selected-high')">🟠 High</div>
+            <div class="priority-opt" onclick="selectPriority(this,'selected-urgent')">🔴 Urgent</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Describe Your Issue</label>
+          <textarea class="field-textarea" rows="5" placeholder="Please describe the issue in detail. Include steps to reproduce, screenshots if helpful, and the expected vs actual behaviour."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Attachments (optional)</label>
+          <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-zone-text">
+              <strong>Click to upload</strong> or drag and drop<br>
+              PNG, JPG, PDF, ZIP — max 10MB
+            </div>
+            <input type="file" id="fileInput" style="display:none" multiple>
+          </div>
+        </div>
+        <button type="button" class="submit-ticket" onclick="submitTicket()">
+          Submit Support Ticket →
+        </button>
+      </form>
+      <div class="ticket-success" id="ticketSuccess">
+        <div class="ts-icon">🎫</div>
+        <div class="ts-title">Ticket submitted!</div>
+        <p class="ts-msg">We've received your request and will respond to your email within the timeframe based on your plan. Check your inbox for a confirmation.</p>
+        <div class="ts-ticket-id">Ticket #BS-2026-0042</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     LIVE CHAT
+════════════════════════════════════════ -->
+<section class="chat-section fade-up" id="live-chat">
+  <div class="chat-layout">
+    <div>
+      <p class="section-label">Live Chat</p>
+      <h2>Talk to a real human, right now.</h2>
+      <p>No bots. No queues. Our support team is available during office hours for instant answers to your questions.</p>
+      <div class="chat-availability">
+        <div class="ca-row"><span class="dot on"></span>Monday – Friday, 9am–7pm IST — <strong style="color:var(--paper);margin-left:.3rem;">Online now</strong></div>
+        <div class="ca-row"><span class="dot on"></span>Saturday, 10am–4pm IST — <strong style="color:var(--paper);margin-left:.3rem;">Online</strong></div>
+        <div class="ca-row"><span class="dot off"></span>Sunday — Closed (ticket support only)</div>
+      </div>
+      <div class="chat-btns">
+        <a href="#" class="btn-chat">💬 Start Live Chat</a>
+        <a href="https://wa.me/919876543210" class="btn-chat-outline">💚 WhatsApp Us</a>
+      </div>
+    </div>
+    <!-- Chat mock -->
+    <div>
+      <div class="chat-mock">
+        <div class="chat-mock-header">
+          <div class="chat-mock-avatar">👨‍💻</div>
+          <div class="chat-mock-info">
+            <div class="chat-mock-name">Rohan — BuildScale Support</div>
+            <div class="chat-mock-status">Online · Typically replies in minutes</div>
+          </div>
+        </div>
+        <div class="chat-mock-body">
+          <div class="msg agent">Hey! 👋 Welcome to BuildScale support. How can I help you today?<div class="msg-time">2:41 PM</div></div>
+          <div class="msg user">Hi! My custom domain isn't pointing to the new site yet<div class="msg-time">2:42 PM</div></div>
+          <div class="msg agent">No problem! Can you share which registrar you're using? I'll walk you through the exact DNS settings needed 🔧<div class="msg-time">2:42 PM</div></div>
+          <div class="msg user">It's GoDaddy<div class="msg-time">2:43 PM</div></div>
+          <div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+        </div>
+        <div class="chat-mock-input">
+          <div class="cmi-field">Type a message…</div>
+          <div class="cmi-send">↑</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FAQ
+════════════════════════════════════════ -->
+<section class="faq-section fade-up" id="faq">
+  <p class="section-label">FAQ</p>
+  <h2>Frequently asked questions</h2>
+
+  <div class="faq-layout">
+    <!-- Topic filter -->
+    <div class="faq-topics">
+      <h4>Filter by topic</h4>
+      <button class="faq-topic-btn active" onclick="filterFaq(this,'all')">All Questions</button>
+      <button class="faq-topic-btn" onclick="filterFaq(this,'project')">Project & Delivery</button>
+      <button class="faq-topic-btn" onclick="filterFaq(this,'billing')">Billing</button>
+      <button class="faq-topic-btn" onclick="filterFaq(this,'revisions')">Revisions</button>
+      <button class="faq-topic-btn" onclick="filterFaq(this,'tech')">Technical</button>
+    </div>
+
+    <!-- Questions -->
+    <div class="faq-main" id="faqMain">
+      <div class="faq-item" data-topic="project" onclick="toggleFaq(this)">
+        <div class="faq-q">How quickly can you start my project after I sign up? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">We onboard new clients within 3–5 business days of contract signing and initial payment. For urgent projects, a fast-track option can begin within 48 hours — just mention it in your brief.</div>
+      </div>
+      <div class="faq-item" data-topic="project" onclick="toggleFaq(this)">
+        <div class="faq-q">What is the typical delivery time for a project? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">Starter websites take 7–14 days. Growth projects run 3–4 weeks. Enterprise builds range from 6 weeks to several months. Your contract will include a specific delivery date with milestone breakpoints.</div>
+      </div>
+      <div class="faq-item" data-topic="revisions" onclick="toggleFaq(this)">
+        <div class="faq-q">How do I request a revision or change? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">Submit your revision requests through the ticket form above or email your dedicated project manager directly. Be as specific as possible — screenshots and annotated images are always helpful. Minor revisions are typically turned around within 24–48 hours.</div>
+      </div>
+      <div class="faq-item" data-topic="billing" onclick="toggleFaq(this)">
+        <div class="faq-q">What is your payment structure? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">Standard projects are billed 50% upfront at contract signing and 50% upon project completion before the final handover. Enterprise retainer engagements are billed monthly in advance.</div>
+      </div>
+      <div class="faq-item" data-topic="billing" onclick="toggleFaq(this)">
+        <div class="faq-q">Do you offer refunds? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">The upfront deposit is non-refundable once work has commenced, as it covers discovery, planning, and initial design work. However, if we fail to meet agreed milestones, we'll work to make it right — including partial refunds where appropriate. <a href="#submit-ticket">Contact support</a> to discuss your situation.</div>
+      </div>
+      <div class="faq-item" data-topic="tech" onclick="toggleFaq(this)">
+        <div class="faq-q">Will I be able to edit my website after launch? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">Yes. All our sites include a CMS (Content Management System) so you can update text, images, blog posts, and other content without touching code. We'll provide a training walkthrough before handover.</div>
+      </div>
+      <div class="faq-item" data-topic="tech" onclick="toggleFaq(this)">
+        <div class="faq-q">What happens if my site goes down after launch? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">If your site goes down during the support period included in your plan, submit an urgent ticket and we'll respond within 2 hours. After the support period ends, we offer maintenance retainers to keep everything running smoothly.</div>
+      </div>
+      <div class="faq-item" data-topic="project" onclick="toggleFaq(this)">
+        <div class="faq-q">Can I see work-in-progress before the final delivery? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">Absolutely. We share design mockups for approval before development begins, and a staging link is provided once development is underway so you can review the live build at any time.</div>
+      </div>
+      <div class="faq-item" data-topic="tech" onclick="toggleFaq(this)">
+        <div class="faq-q">Do you work with my existing hosting provider? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">In most cases, yes. We work with Hostinger, GoDaddy, Bluehost, cPanel, Vercel, Netlify, AWS, and most other major providers. If you're on an unsupported platform, we'll let you know and recommend alternatives.</div>
+      </div>
+      <div class="faq-item" data-topic="revisions" onclick="toggleFaq(this)">
+        <div class="faq-q">What if I need more revisions than my plan includes? <span class="faq-toggle">+</span></div>
+        <div class="faq-a">Additional revisions beyond your plan's included rounds are billed at an hourly rate (disclosed in your contract). We'll always get your approval before commencing paid revision work — no surprise invoices.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CONTACT CHANNELS
+════════════════════════════════════════ -->
+<section class="channels-section fade-up">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:0;">
+    <div>
+      <p class="section-label">Get in Touch</p>
+      <h2>Reach us any way you prefer</h2>
+    </div>
+    <p style="font-size:.95rem;line-height:1.7;color:#666;font-weight:300;align-self:end;">Multiple ways to get support — choose what's easiest for you.</p>
+  </div>
+  <div class="channels-grid">
+    <div class="channel-card">
+      <span class="channel-avail online">● Online</span>
+      <div class="channel-icon">💬</div>
+      <h3>Live Chat</h3>
+      <p>Instant responses from our support team during office hours. Best for quick questions and urgent issues.</p>
+      <div class="channel-detail">Start a conversation</div>
+    </div>
+    <div class="channel-card">
+      <span class="channel-avail async">24hr response</span>
+      <div class="channel-icon">✉️</div>
+      <h3>Email Support</h3>
+      <p>Send a detailed message to our support team. Perfect for complex issues that need a thorough written response.</p>
+      <div class="channel-detail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="35464045455a47417557405c595146565459501b5c5a">[email&#160;protected]</a></div>
+    </div>
+    <div class="channel-card">
+      <span class="channel-avail online">● Online</span>
+      <div class="channel-icon">📞</div>
+      <h3>Phone & WhatsApp</h3>
+      <p>Speak directly with your project manager or our support team. Available during business hours, Mon–Sat.</p>
+      <div class="channel-detail">+91 98765 43210</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SYSTEM STATUS
+════════════════════════════════════════ -->
+<section class="status-section fade-up" id="system-status">
+  <p class="section-label">System Status</p>
+  <h2>Platform health & uptime</h2>
+  <div class="status-grid">
+    <!-- Service status list -->
+    <div class="status-services">
+      <div class="ss-row"><span class="ss-name">Main Website (buildscale.io)</span><span class="ss-uptime">99.99% uptime</span><span class="ss-status operational">Operational</span></div>
+      <div class="ss-row"><span class="ss-name">Client Portal</span><span class="ss-uptime">99.98% uptime</span><span class="ss-status operational">Operational</span></div>
+      <div class="ss-row"><span class="ss-name">Support Ticketing System</span><span class="ss-uptime">100% uptime</span><span class="ss-status operational">Operational</span></div>
+      <div class="ss-row"><span class="ss-name">Email Delivery</span><span class="ss-uptime">99.97% uptime</span><span class="ss-status operational">Operational</span></div>
+      <div class="ss-row"><span class="ss-name">File & Asset Storage</span><span class="ss-uptime">99.99% uptime</span><span class="ss-status operational">Operational</span></div>
+      <div class="ss-row"><span class="ss-name">Live Chat System</span><span class="ss-uptime">99.95% uptime</span><span class="ss-status operational">Operational</span></div>
+      <div class="ss-row"><span class="ss-name">Payment Processing</span><span class="ss-uptime">99.99% uptime</span><span class="ss-status operational">Operational</span></div>
+    </div>
+    <!-- Uptime chart -->
+    <div class="uptime-chart">
+      <div>
+        <div class="uc-label">90-day uptime history — All services</div>
+        <div class="uc-bars" id="uptimeBars"></div>
+        <div class="uc-footer"><span>90 days ago</span><span>Today</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5rem;margin-top:.5rem;">
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:rgba(245,243,238,.4);"><span style="width:10px;height:10px;border-radius:1px;background:rgba(34,197,94,.5);display:inline-block;"></span>Operational</div>
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:rgba(245,243,238,.4);"><span style="width:10px;height:10px;border-radius:1px;background:rgba(245,158,11,.5);display:inline-block;"></span>Minor incident</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CTA STRIP
+════════════════════════════════════════ -->
+<div class="cta-strip fade-up">
+  <h2>Still need help? Our team is one message away.</h2>
+  <div class="cta-btns">
+    <a href="#submit-ticket" class="btn-fill">Submit a Ticket →</a>
+    <a href="contact-us.html" class="btn-outline">Contact Us</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="saas-website.html" class="logo">Build<span>Scale</span></a>
+      <p class="footer-tagline">We build websites that help small and large businesses grow — fast, beautiful, and built to last.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">𝕏</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a>
+        <a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="service-small-business.html">Small Business Sites</a></li>
+        <li><a href="service-ecommerce.html">E-Commerce</a></li>
+        <li><a href="service-saas.html">SaaS Platforms</a></li>
+        <li><a href="service-enterprise.html">Enterprise</a></li>
+        <li><a href="service-redesign.html">Redesigns</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="#">Our Work</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="support.html">Help Center</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 BuildScale. All rights reserved.</p>
+    <p>Made with care for growing businesses.</p>
+  </div>
+</footer>
+
+<!-- Floating chat button -->
+<button class="chat-fab" onclick="document.getElementById('live-chat').scrollIntoView({behavior:'smooth'})">
+  💬
+  <span class="chat-fab-badge">1</span>
+</button>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+/* ── Custom Cursor ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
+});
+document.querySelectorAll('a, button, .qa-card, .article-item, .priority-opt, .pop-tag, .faq-item').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.width = '20px'; cur.style.height = '20px'; ring.style.width = '52px'; ring.style.height = '52px'; });
+  el.addEventListener('mouseleave', () => { cur.style.width = '12px'; cur.style.height = '12px'; ring.style.width = '36px'; ring.style.height = '36px'; });
+});
+
+/* ── Scroll Fade-in ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+/* ── Search ── */
+const articles = [
+  { title: 'How to complete your project brief form', tag: 'Getting Started' },
+  { title: 'How and when you will be invoiced', tag: 'Billing' },
+  { title: 'How many revisions are included in my plan?', tag: 'Revisions' },
+  { title: 'How to connect your custom domain', tag: 'Domains' },
+  { title: 'Setting up Google Analytics 4 on your site', tag: 'SEO' },
+  { title: 'Resetting your password and 2FA setup', tag: 'Account' },
+  { title: 'Understanding the 50/50 payment structure', tag: 'Billing' },
+  { title: 'The onboarding checklist — what to prepare', tag: 'Getting Started' },
+  { title: 'How to read and use your project timeline', tag: 'Project' },
+  { title: 'Improving your Core Web Vitals score', tag: 'SEO' },
+  { title: 'Deploying to Vercel, Netlify, or cPanel', tag: 'Domains' },
+  { title: 'Updating images, text, and content yourself', tag: 'Revisions' },
+];
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { searchResults.classList.remove('show'); return; }
+  const matches = articles.filter(a => a.title.toLowerCase().includes(q)).slice(0, 5);
+  if (!matches.length) { searchResults.classList.remove('show'); return; }
+  searchResults.innerHTML = matches.map(a =>
+    `<div class="sr-item" onclick="searchResults.classList.remove('show')">
+      <span>${a.title}</span>
+      <span class="sr-tag">${a.tag}</span>
+    </div>`
+  ).join('');
+  searchResults.classList.add('show');
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) searchResults.classList.remove('show');
+});
+function fillSearch(text) {
+  searchInput.value = text;
+  searchInput.dispatchEvent(new Event('input'));
+  searchInput.focus();
+}
+
+/* ── Help Center Panels ── */
+function switchPanel(btn) {
+  document.querySelectorAll('.hc-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = btn.dataset.panel;
+  document.querySelectorAll('.hc-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + panel).classList.add('active');
+}
+
+/* ── Ticket Priority ── */
+function selectPriority(el, cls) {
+  document.querySelectorAll('.priority-opt').forEach(o => {
+    o.classList.remove('selected-low','selected-med','selected-high','selected-urgent');
+  });
+  el.classList.add(cls);
+}
+
+/* ── Ticket Submit ── */
+function submitTicket() {
+  document.getElementById('ticketForm').style.display = 'none';
+  document.getElementById('ticketSuccess').classList.add('show');
+}
+
+/* ── FAQ Toggle ── */
+function toggleFaq(item) {
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ── FAQ Topic Filter ── */
+function filterFaq(btn, topic) {
+  document.querySelectorAll('.faq-topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.faq-item').forEach(item => {
+    if (topic === 'all' || item.dataset.topic === topic) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+      item.classList.remove('open');
+    }
+  });
+}
+
+/* ── Uptime Bars ── */
+(function buildUptimeBars() {
+  const container = document.getElementById('uptimeBars');
+  for (let i = 0; i < 90; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'uc-bar';
+    // Sprinkle a couple of minor incident days
+    if (i === 23 || i === 61) bar.classList.add('incident');
+    const h = 40 + Math.random() * 60;
+    bar.style.height = h + '%';
+    container.appendChild(bar);
+  }
+})();
+</script>
+</body>
+</html>

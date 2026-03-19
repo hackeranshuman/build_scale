@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Commerce — BuildScale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/CSS/e-commerce.css">
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav>
+  <a href="index.html" class="logo">Build<span>Scale</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="about_us.html">About</a></li>
+    <li><a href="contact_us.html" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="fade-up">
+    <div class="breadcrumb"><a href="index.html">Home</a> › <a href="index.html#services">Services</a> › <span>E-Commerce</span></div>
+    <span class="hero-eyebrow">E-Commerce Development</span>
+    <h1 style="font-size:clamp(2.8rem,5.5vw,5rem);margin-bottom:1.6rem;color:var(--paper);">Your store. Open 24/7. <span style="color:var(--service);">Selling non-stop.</span></h1>
+    <p class="hero-desc">From product catalogues to one-click checkout — we build online stores that convert browsers into buyers and grow your revenue while you sleep.</p>
+    <div class="hero-ctas">
+      <a href="contact_us.html" class="btn-primary">Launch My Store →</a>
+      <a href="#platforms" class="btn-ghost">Explore platforms</a>
+    </div>
+  </div>
+  <div class="fade-up" style="position:relative;transition-delay:.2s;">
+    <div class="store-mock">
+      <div class="sm-bar"><div class="smdot"></div><div class="smdot"></div><div class="smdot"></div><div class="smurl"></div></div>
+      <div class="sm-body">
+        <div class="sm-header"><div class="sm-logo"></div><div class="sm-nav"><div class="smn"></div><div class="smn"></div><div class="smn"></div></div><div class="sm-cart">🛒</div></div>
+        <div class="sm-banner"><div class="sm-banner-text"></div><div class="sm-banner-btn"></div></div>
+        <div class="sm-products">
+          <div class="sm-prod"><div class="sm-prod-img">👜</div><div class="sm-prod-name"></div><div class="sm-prod-price"></div></div>
+          <div class="sm-prod"><div class="sm-prod-img">👟</div><div class="sm-prod-name"></div><div class="sm-prod-price"></div></div>
+          <div class="sm-prod"><div class="sm-prod-img">⌚</div><div class="sm-prod-name"></div><div class="sm-prod-price"></div></div>
+          <div class="sm-prod"><div class="sm-prod-img">🕶️</div><div class="sm-prod-name"></div><div class="sm-prod-price"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="float-badge"><div class="float-badge-val">+340%</div><div class="float-badge-label">Avg. revenue lift</div></div>
+  </div>
+</section>
+
+<div class="stats-bar fade-up">
+  <div class="stat-cell"><div class="stat-val">120+</div><div class="stat-label">Stores launched</div></div>
+  <div class="stat-cell"><div class="stat-val">$18M</div><div class="stat-label">Client revenue generated</div></div>
+  <div class="stat-cell"><div class="stat-val">3.2%</div><div class="stat-label">Avg. conversion rate</div></div>
+  <div class="stat-cell"><div class="stat-val">99.9%</div><div class="stat-label">Store uptime</div></div>
+</div>
+
+<section class="platforms-section" id="platforms">
+  <div class="fade-up"><p class="section-label">Platforms We Build On</p><h2 style="font-size:clamp(2rem,3.5vw,3rem);">We work with the best-in-class platforms</h2></div>
+  <div class="platform-grid fade-up" style="transition-delay:.1s;">
+    <div class="platform-card">
+      <div class="platform-name">Shopify</div>
+      <p class="platform-desc">The world's most powerful e-commerce platform. Perfect for DTC brands, fashion, beauty, and high-volume retail.</p>
+      <div class="platform-tags"><span class="ptag">DTC</span><span class="ptag">Fashion</span><span class="ptag">Subscriptions</span><span class="ptag">High-Volume</span></div>
+    </div>
+    <div class="platform-card">
+      <div class="platform-name">WooCommerce</div>
+      <p class="platform-desc">WordPress-powered flexibility for content-rich stores that need full control over every aspect of the experience.</p>
+      <div class="platform-tags"><span class="ptag">WordPress</span><span class="ptag">Custom</span><span class="ptag">SEO-Rich</span><span class="ptag">Blogs</span></div>
+    </div>
+    <div class="platform-card">
+      <div class="platform-name">Custom Build</div>
+      <p class="platform-desc">For businesses with unique requirements — bespoke e-commerce architecture built on Next.js, Stripe, and headless CMS.</p>
+      <div class="platform-tags"><span class="ptag">Headless</span><span class="ptag">Next.js</span><span class="ptag">Bespoke</span><span class="ptag">Enterprise</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="features-section fade-up">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:0;">
+    <div><p class="section-label">Features</p><h2>Every feature your store needs to succeed</h2></div>
+    <p style="font-size:.95rem;line-height:1.7;color:#666;font-weight:300;align-self:end;">Conversion-focused design meets powerful back-end functionality for a store your customers will love returning to.</p>
+  </div>
+  <div class="features-grid" style="margin-top:3.5rem;">
+    <div class="feature-card"><div class="f-icon">🛒</div><h3>Conversion-Optimised Checkout</h3><p>Streamlined 1-3 step checkout flows, guest checkout, saved addresses, and multiple payment methods including UPI and buy-now-pay-later.</p></div>
+    <div class="feature-card"><div class="f-icon">📦</div><h3>Inventory & Order Management</h3><p>Real-time stock tracking, low-stock alerts, automated order processing, and fulfilment integrations with Shiprocket, Delhivery, and more.</p></div>
+    <div class="feature-card"><div class="f-icon">💳</div><h3>Payments & Multi-Currency</h3><p>Razorpay, Stripe, PayPal, UPI, COD — every payment method your customers expect, across all currencies.</p></div>
+    <div class="feature-card"><div class="f-icon">🔍</div><h3>Product Search & Filters</h3><p>Lightning-fast search with smart filters, faceted navigation, and personalised recommendations to help customers find what they want.</p></div>
+    <div class="feature-card"><div class="f-icon">📊</div><h3>Analytics & Sales Dashboard</h3><p>Real-time sales data, customer behaviour insights, abandoned cart tracking, and ROI reporting built right in.</p></div>
+    <div class="feature-card"><div class="f-icon">📱</div><h3>Mobile-First Shopping</h3><p>70%+ of purchases happen on mobile. We design and optimise every interaction for thumb-friendly, fast mobile shopping.</p></div>
+  </div>
+</section>
+
+<section class="process-section fade-up">
+  <p class="section-label" style="color:rgba(255,255,255,.5);display:flex;align-items:center;gap:.6rem;"><span style="width:20px;height:1.5px;background:rgba(255,255,255,.4);display:inline-block;"></span>Launch Process</p>
+  <h2 style="color:white;font-size:clamp(2rem,3vw,2.8rem);margin-top:.5rem;margin-bottom:0;">From zero to revenue in 5 steps</h2>
+  <div class="process-grid">
+    <div class="pg"><div class="pg-num">01</div><h4>Discovery</h4><p>Product catalogue, brand audit, competitor research, and conversion goals.</p></div>
+    <div class="pg"><div class="pg-num">02</div><h4>Design</h4><p>Homepage, PLP, PDP, cart, and checkout — fully designed and approved.</p></div>
+    <div class="pg"><div class="pg-num">03</div><h4>Build</h4><p>Platform setup, theme development, product import, payments, and integrations.</p></div>
+    <div class="pg"><div class="pg-num">04</div><h4>Test</h4><p>End-to-end order flow testing, mobile QA, load testing, and SEO audit.</p></div>
+    <div class="pg"><div class="pg-num">05</div><h4>Launch 🚀</h4><p>Go live, Google indexing, analytics, and post-launch conversion monitoring.</p></div>
+  </div>
+</section>
+
+<section class="pricing-section fade-up">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:0;align-items:end;">
+    <div><p class="section-label">Pricing</p><h2>Transparent pricing for your store</h2></div>
+    <p style="font-size:.95rem;line-height:1.7;color:#666;font-weight:300;align-self:end;">No commission on your sales. Ever. Just a flat project fee.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="plan-label">Starter Store</div>
+      <div class="plan-price"><sup>$</sup>2,499</div>
+      <p class="plan-note">One-time project fee</p>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Up to 100 products</li>
+        <li>Shopify or WooCommerce</li>
+        <li>Custom homepage + product pages</li>
+        <li>Payment gateway setup</li>
+        <li>Mobile-optimised</li>
+        <li>Basic SEO & analytics</li>
+        <li>21-day delivery</li>
+      </ul>
+      <a href="contact_us.html" class="plan-btn plan-btn-border">Get Started</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="plan-label">Growth Store</div>
+      <div class="plan-price"><sup>$</sup>5,999</div>
+      <p class="plan-note">One-time project fee · Most Popular</p>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Unlimited products</li>
+        <li>Custom UI/UX design</li>
+        <li>Advanced search & filters</li>
+        <li>Multi-currency & multi-language</li>
+        <li>Abandoned cart recovery</li>
+        <li>Loyalty & reviews integration</li>
+        <li>Full analytics dashboard</li>
+        <li>3 months support</li>
+      </ul>
+      <a href="contact_us.html" class="plan-btn plan-btn-fill">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip fade-up">
+  <h2>Ready to turn your products into a revenue machine?</h2>
+  <div class="cta-strip-btns">
+    <a href="contact_us.html" class="btn-accent">Launch My Store →</a>
+    <a href="index.html#pricing" class="btn-outline">Compare All Plans</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="saas-website.html" class="logo">Build<span>Scale</span></a>
+      <p class="footer-tagline">We build websites that help small and large businesses grow — fast, beautiful, and built to last.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">𝕏</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a>
+        <a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="small_business_sites.html">Small Business Sites</a></li>
+        <li><a href="e-commerce.html">E-Commerce</a></li>
+        <li><a href="#">SaaS Platforms</a></li>
+        <li><a href="#">Enterprise</a></li>
+        <li><a href="#">Redesigns</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about_us.html">About Us</a></li>
+        <li><a href="#">Our Work</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="contact_us.html">Contact</a></li>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 BuildScale. All rights reserved.</p>
+    <p>Made with care for growing businesses.</p>
+  </div>
+</footer>
+<script src="src/Javascript/e-commerce.js"></script>
+</body>
+</html>
