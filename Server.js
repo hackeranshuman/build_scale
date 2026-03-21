@@ -42,9 +42,11 @@ const DB_FILE = path.join(__dirname, 'tickets.json');
 
 function readDB() {
   if (!fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify({ tickets: [] }, null, 2));
+    fs.writeFileSync(DB_FILE, JSON.stringify({ tickets: [], enquiries: [] }, null, 2));
   }
-  return JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+  const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+  if (!data.enquiries) data.enquiries = []; // migrate old DB
+  return data;
 }
 
 function writeDB(data) {
@@ -57,6 +59,14 @@ function generateTicketNumber() {
   const db   = readDB();
   const num  = String(db.tickets.length + 1).padStart(4, '0');
   return `BS-${year}-${num}`;
+}
+
+// ── Helper: generate enquiry number ───────────────────────
+function generateEnquiryNumber() {
+  const year = new Date().getFullYear();
+  const db   = readDB();
+  const num  = String(db.enquiries.length + 1).padStart(4, '0');
+  return `ENQ-${year}-${num}`;
 }
 
 // ── Helper: priority sort order ────────────────────────────
@@ -224,7 +234,125 @@ app.get('/api/stats', (req, res) => {
     });
   }
 
+  // Enquiry stats
+  const e = db.enquiries;
+  stats.enquiries = {
+    total:     e.length,
+    new_:      e.filter(x => x.status === 'new').length,
+    contacted: e.filter(x => x.status === 'contacted').length,
+    converted: e.filter(x => x.status === 'converted').length,
+    today:     e.filter(x => x.submittedAt.slice(0, 10) === todayStr).length,
+  };
+
   res.json({ success: true, stats });
+});
+
+
+// ══════════════════════════════════════════════════════════
+//  ENQUIRY ROUTES  (from Contact Us page)
+// ══════════════════════════════════════════════════════════
+
+// ── POST /api/enquiries — Submit new enquiry ───────────────
+app.post('/api/enquiries', (req, res) => {
+  const { firstName, lastName, email, company, phone,
+          services, budget, description, timeline, heardFrom } = req.body;
+
+  const name = `${(firstName||'').trim()} ${(lastName||'').trim()}`.trim();
+
+  if (!name || !email) {
+    return res.status(400).json({ success: false, error: 'Name and email are required.' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ success: false, error: 'Please provide a valid email address.' });
+  }
+
+  const enquiry = {
+    id:             uuidv4(),
+    enquiryNumber:  generateEnquiryNumber(),
+    firstName:      (firstName||'').trim(),
+    lastName:       (lastName||'').trim(),
+    name,
+    email:          email.trim().toLowerCase(),
+    company:        (company||'').trim(),
+    phone:          (phone||'').trim(),
+    services:       services || [],
+    budget:         budget || 'Not specified',
+    description:    (description||'').trim(),
+    timeline:       timeline || 'Not specified',
+    heardFrom:      heardFrom || 'Not specified',
+    status:         'new',       // new | contacted | in-progress | converted | closed
+    adminNotes:     '',
+    submittedAt:    new Date().toISOString(),
+    updatedAt:      new Date().toISOString(),
+  };
+
+  const db = readDB();
+  db.enquiries.unshift(enquiry);
+  writeDB(db);
+
+  console.log(`\n📬 NEW ENQUIRY: ${enquiry.enquiryNumber}`);
+  console.log(`   From:     ${enquiry.name} <${enquiry.email}>`);
+  console.log(`   Company:  ${enquiry.company || 'N/A'}`);
+  console.log(`   Budget:   ${enquiry.budget}`);
+  console.log(`   Services: ${(enquiry.services||[]).join(', ')||'None selected'}\n`);
+
+  res.status(201).json({
+    success:       true,
+    enquiryNumber: enquiry.enquiryNumber,
+    message:       "We've received your enquiry and will be in touch within 24 hours!",
+    enquiry,
+  });
+});
+
+// ── GET /api/enquiries — Get all enquiries ─────────────────
+app.get('/api/enquiries', (req, res) => {
+  const db = readDB();
+  let enquiries = [...db.enquiries];
+
+  const { status, search } = req.query;
+  if (status) enquiries = enquiries.filter(e => e.status === status);
+  if (search) {
+    const q = search.toLowerCase();
+    enquiries = enquiries.filter(e =>
+      e.name.toLowerCase().includes(q) ||
+      e.email.toLowerCase().includes(q) ||
+      e.company.toLowerCase().includes(q) ||
+      e.enquiryNumber.toLowerCase().includes(q) ||
+      (e.description||'').toLowerCase().includes(q)
+    );
+  }
+  res.json({ success: true, count: enquiries.length, enquiries });
+});
+
+// ── GET /api/enquiries/:id — Single enquiry ─────────────────
+app.get('/api/enquiries/:id', (req, res) => {
+  const db = readDB();
+  const e  = db.enquiries.find(x => x.id === req.params.id || x.enquiryNumber === req.params.id);
+  if (!e) return res.status(404).json({ success: false, error: 'Enquiry not found.' });
+  res.json({ success: true, enquiry: e });
+});
+
+// ── PATCH /api/enquiries/:id — Update enquiry ──────────────
+app.patch('/api/enquiries/:id', (req, res) => {
+  const db  = readDB();
+  const idx = db.enquiries.findIndex(x => x.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ success: false, error: 'Enquiry not found.' });
+  ['status', 'adminNotes'].forEach(f => {
+    if (req.body[f] !== undefined) db.enquiries[idx][f] = req.body[f];
+  });
+  db.enquiries[idx].updatedAt = new Date().toISOString();
+  writeDB(db);
+  res.json({ success: true, enquiry: db.enquiries[idx] });
+});
+
+// ── DELETE /api/enquiries/:id — Delete enquiry ─────────────
+app.delete('/api/enquiries/:id', (req, res) => {
+  const db  = readDB();
+  const idx = db.enquiries.findIndex(x => x.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ success: false, error: 'Enquiry not found.' });
+  const [removed] = db.enquiries.splice(idx, 1);
+  writeDB(db);
+  res.json({ success: true, message: `Enquiry ${removed.enquiryNumber} deleted.` });
 });
 
 // ══════════════════════════════════════════════════════════
@@ -424,6 +552,12 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d14;color:var(--paper);min-
     <button class="sidebar-link" onclick="showPage('tickets');filterTickets('resolved')">🟢 Resolved</button>
     <button class="sidebar-link" onclick="showPage('tickets');filterTickets('closed')">⚫ Closed</button>
 
+    <div class="sidebar-label">Enquiries</div>
+    <button class="sidebar-link" onclick="showPage('enquiries')">📬 All Enquiries <span class="badge" id="sidebarEnqCount">—</span></button>
+    <button class="sidebar-link" onclick="showPage('enquiries');filterEnquiries('new')">🆕 New</button>
+    <button class="sidebar-link" onclick="showPage('enquiries');filterEnquiries('contacted')">📞 Contacted</button>
+    <button class="sidebar-link" onclick="showPage('enquiries');filterEnquiries('converted')">✅ Converted</button>
+
     <div class="sidebar-label">Filter by Priority</div>
     <button class="sidebar-link" onclick="showPage('tickets');filterByPriority('urgent')">🔴 Urgent <span class="badge urgent" id="sidebarUrgentCount">—</span></button>
     <button class="sidebar-link" onclick="showPage('tickets');filterByPriority('high')">🟠 High</button>
@@ -443,7 +577,12 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d14;color:var(--paper);min-
         </div>
       </div>
 
-      <div class="stats-row">
+      <div class="stats-row" style="grid-template-columns:repeat(5,1fr)">
+        <div class="stat-card" style="--c:#f59e0b" >
+          <div class="stat-val" id="statEnqTotal" style="color:#f59e0b">—</div>
+          <div class="stat-label">New Enquiries</div>
+          <div class="stat-sub">From Contact page</div>
+        </div>
         <div class="stat-card c-open">
           <div class="stat-val" id="statOpen">—</div>
           <div class="stat-label">Open Tickets</div>
@@ -511,7 +650,74 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d14;color:var(--paper);min-
       </div>
     </div>
 
+    <!-- ENQUIRIES PAGE -->
+    <div class="page" id="page-enquiries">
+      <div class="topbar">
+        <h1>Enquiries <span style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.35);font-family:DM Sans">from Contact Us</span></h1>
+        <div class="topbar-actions">
+          <input type="text" class="search-box" id="enqSearchBox" placeholder="Search enquiries…" oninput="handleEnqSearch()">
+          <button class="btn btn-ghost" onclick="loadAll()">↻ Refresh</button>
+          <button class="btn btn-primary" onclick="exportEnqCSV()">⬇ Export CSV</button>
+        </div>
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" onclick="filterEnquiries('all',this)">All</button>
+        <button class="filter-btn" onclick="filterEnquiries('new',this)">🆕 New</button>
+        <button class="filter-btn" onclick="filterEnquiries('contacted',this)">📞 Contacted</button>
+        <button class="filter-btn" onclick="filterEnquiries('in-progress',this)">🟡 In Progress</button>
+        <button class="filter-btn" onclick="filterEnquiries('converted',this)">✅ Converted</button>
+        <button class="filter-btn" onclick="filterEnquiries('closed',this)">⚫ Closed</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header" style="grid-template-columns:110px 1fr 140px 120px 100px 90px">
+          <span>Ref #</span><span>Contact</span><span>Company</span><span>Budget</span><span>Status</span><span>Actions</span>
+        </div>
+        <div id="allEnquiries"></div>
+      </div>
+    </div>
+
   </main>
+</div>
+
+<!-- ── ENQUIRY DETAIL MODAL ── -->
+<div class="modal-backdrop" id="enqModalBackdrop" onclick="closeEnqModal(event)">
+  <div class="modal" id="enqModal">
+    <div class="modal-header">
+      <h2 id="enqModalTitle">Enquiry Details</h2>
+      <span id="enqModalBadge"></span>
+      <button class="modal-close" onclick="closeEnqModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid" id="enqDetailGrid"></div>
+      <div class="detail-message">
+        <div class="detail-label">Project Description</div>
+        <pre id="enqDetailDesc" style="font-family:DM Sans,sans-serif;font-size:.875rem;color:rgba(245,243,238,.7);white-space:pre-wrap;line-height:1.6;font-weight:300;"></pre>
+      </div>
+      <div id="enqServicesWrap" style="background:rgba(255,255,255,.04);border-radius:2px;padding:1rem;">
+        <div class="detail-label" style="font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.6rem;">Services Interested In</div>
+        <div id="enqServicesList" style="display:flex;flex-wrap:wrap;gap:.4rem;"></div>
+      </div>
+      <div>
+        <label class="form-label">Update Status</label>
+        <select class="status-select" id="enqStatusSelect">
+          <option value="new">🆕 New</option>
+          <option value="contacted">📞 Contacted</option>
+          <option value="in-progress">🟡 In Progress</option>
+          <option value="converted">✅ Converted</option>
+          <option value="closed">⚫ Closed</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Admin Notes</label>
+        <textarea class="notes-input" id="enqAdminNotes" placeholder="Add internal notes about this enquiry…"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveEnquiry()">💾 Save Changes</button>
+      <button class="btn btn-ghost" onclick="closeEnqModalDirect()">Cancel</button>
+      <button class="btn" style="background:rgba(220,38,38,.1);color:#dc2626;margin-left:auto;" onclick="deleteEnquiry()">🗑 Delete</button>
+    </div>
+  </div>
 </div>
 
 <!-- ── TICKET DETAIL MODAL ── -->
@@ -568,7 +774,7 @@ function showPage(name) {
 
 // ── Load all data ──────────────────────────
 async function loadAll() {
-  await Promise.all([loadStats(), loadTickets()]);
+  await Promise.all([loadStats(), loadTickets(), loadEnquiries()]);
 }
 
 // ── Load stats ─────────────────────────────
@@ -582,8 +788,13 @@ async function loadStats() {
     document.getElementById('statProgress').textContent = s.inProgress;
     document.getElementById('statResolved').textContent = s.resolved;
     document.getElementById('statUrgent').textContent   = s.urgent;
-    document.getElementById('sidebarOpenCount').textContent  = s.open;
+    document.getElementById('sidebarOpenCount').textContent   = s.open;
     document.getElementById('sidebarUrgentCount').textContent = s.urgent;
+    // Enquiry stats
+    if (s.enquiries) {
+      document.getElementById('statEnqTotal').textContent  = s.enquiries.new_;
+      document.getElementById('sidebarEnqCount').textContent = s.enquiries.total;
+    }
 
     // Bar chart
     const barChart  = document.getElementById('barChart');
