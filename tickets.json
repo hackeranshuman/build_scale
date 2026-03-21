@@ -1,0 +1,21 @@
+{
+  "tickets": [
+    {
+      "id": "09d182b5-73d5-45b4-9304-448ad9931d29",
+      "ticketNumber": "BS-2026-0001",
+      "name": "anshuman",
+      "email": "anshuman.prelude@gmail.com",
+      "subject": "anshuman is the greatest",
+      "category": "Billing question",
+      "plan": "Enterprise (Custom)",
+      "priority": "high",
+      "message": "wertyuilkjhgxcvbnm",
+      "status": "closed",
+      "adminNotes": "",
+      "source": "support-page",
+      "submittedAt": "2026-03-21T17:21:59.160Z",
+      "updatedAt": "2026-03-21T17:25:15.768Z",
+      "resolvedAt": "2026-03-21T17:25:15.768Z"
+    }
+  ]
+}

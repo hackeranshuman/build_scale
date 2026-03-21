@@ -841,6 +841,7 @@ footer {
 ════════════════════════════════════════ -->
 <section class="support-hero">
   <div class="hero-inner fade-up">
+    <span class="hero-eyebrow">Help Center</span>
     <h1>How can we <span>help you</span> today?</h1>
     <p class="hero-sub">Search our knowledge base, submit a ticket, or chat with our team. We're here to make sure your project runs smoothly.</p>
 
@@ -1102,22 +1103,22 @@ footer {
       <form class="ticket-form" id="ticketForm">
         <div class="form-row-2">
           <div class="field-group">
-            <label class="field-label">Your Name</label>
-            <input type="text" class="field-input" placeholder="Arjun Mehta" required>
+            <label class="field-label" for="ticketName">Your Name</label>
+            <input type="text" id="ticketName" class="field-input" placeholder="Arjun Mehta" required>
           </div>
           <div class="field-group">
-            <label class="field-label">Email Address</label>
-            <input type="email" class="field-input" placeholder="arjun@company.com" required>
+            <label class="field-label" for="ticketEmail">Email Address</label>
+            <input type="email" id="ticketEmail" class="field-input" placeholder="arjun@company.com" required>
           </div>
         </div>
         <div class="field-group">
-          <label class="field-label">Subject</label>
-          <input type="text" class="field-input" placeholder="Brief description of your issue">
+          <label class="field-label" for="ticketSubject">Subject</label>
+          <input type="text" id="ticketSubject" class="field-input" placeholder="Brief description of your issue">
         </div>
         <div class="form-row-2">
           <div class="field-group">
-            <label class="field-label">Category</label>
-            <select class="field-select field-input">
+            <label class="field-label" for="ticketCategory">Category</label>
+            <select id="ticketCategory" class="field-select field-input">
               <option value="" disabled selected>Select a category</option>
               <option>Bug / Something is broken</option>
               <option>Content update request</option>
@@ -1129,8 +1130,8 @@ footer {
             </select>
           </div>
           <div class="field-group">
-            <label class="field-label">Your Plan</label>
-            <select class="field-select field-input">
+            <label class="field-label" for="ticketPlan">Your Plan</label>
+            <select id="ticketPlan" class="field-select field-input">
               <option value="" disabled selected>Select your plan</option>
               <option>Starter ($999)</option>
               <option>Growth ($2,999)</option>
@@ -1149,8 +1150,8 @@ footer {
           </div>
         </div>
         <div class="field-group">
-          <label class="field-label">Describe Your Issue</label>
-          <textarea class="field-textarea" rows="5" placeholder="Please describe the issue in detail. Include steps to reproduce, screenshots if helpful, and the expected vs actual behaviour."></textarea>
+          <label class="field-label" for="ticketMessage">Describe Your Issue</label>
+          <textarea id="ticketMessage" class="field-textarea" rows="5" placeholder="Please describe the issue in detail. Include steps to reproduce, screenshots if helpful, and the expected vs actual behaviour."></textarea>
         </div>
         <div class="field-group">
           <label class="field-label">Attachments (optional)</label>
@@ -1499,9 +1500,76 @@ function selectPriority(el, cls) {
 }
 
 /* ── Ticket Submit ── */
-function submitTicket() {
-  document.getElementById('ticketForm').style.display = 'none';
-  document.getElementById('ticketSuccess').classList.add('show');
+async function submitTicket() {
+  // ── Read values using proper IDs ──────────────────────────
+  const name     = document.getElementById('ticketName')?.value?.trim();
+  const email    = document.getElementById('ticketEmail')?.value?.trim();
+  const subject  = document.getElementById('ticketSubject')?.value?.trim() || 'No subject';
+  const category = document.getElementById('ticketCategory')?.value || 'General question';
+  const plan     = document.getElementById('ticketPlan')?.value || 'Unknown';
+  const message  = document.getElementById('ticketMessage')?.value?.trim();
+  const priority = document.querySelector('.priority-opt.selected-urgent') ? 'urgent'
+                 : document.querySelector('.priority-opt.selected-high')   ? 'high'
+                 : document.querySelector('.priority-opt.selected-low')    ? 'low'
+                 : 'medium';
+
+  // ── Validation ─────────────────────────────────────────────
+  if (!name) { alert('Please enter your name.'); document.getElementById('ticketName').focus(); return; }
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { alert('Please enter a valid email address.'); document.getElementById('ticketEmail').focus(); return; }
+  if (!message) { alert('Please describe your issue.'); document.getElementById('ticketMessage').focus(); return; }
+
+  // ── Disable button ─────────────────────────────────────────
+  const btn = document.querySelector('.submit-ticket');
+  const originalText = btn.textContent;
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+
+  // ── Smart API URL detection ────────────────────────────────
+  // Handles 3 scenarios:
+  //   1. file://  → opened directly as a file
+  //   2. :5500    → VS Code Live Server (not Express, can't handle POST)
+  //   3. :3000    → served by our Express server → use relative path
+  const port = window.location.port;
+  const API_URL = (window.location.protocol === 'file:' || port === '5500' || port === '5501')
+    ? 'http://localhost:3000/api/tickets'   // always hit Express directly
+    : '/api/tickets';                        // served by Express → relative path
+
+  try {
+    const res = await fetch(API_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, category, plan, priority, message, source: 'support-page' }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Server returned ' + res.status);
+    }
+
+    const data = await res.json();
+
+    if (data.success) {
+      document.getElementById('ticketForm').style.display = 'none';
+      const successEl = document.getElementById('ticketSuccess');
+      successEl.classList.add('show');
+      const idEl = successEl.querySelector('.ts-ticket-id');
+      if (idEl) idEl.textContent = 'Ticket ' + data.ticketNumber;
+    } else {
+      throw new Error(data.error || 'Unknown error');
+    }
+
+  } catch (err) {
+    console.error('Submit error:', err);
+    // Friendly error message
+    const msg = err.message.includes('Failed to fetch')
+      ? 'Cannot reach the server.\n\nMake sure you have:\n1. Installed dependencies: npm install\n2. Started the server: node server.js\n3. Server is running on http://localhost:3000'
+      : 'Error: ' + err.message;
+    alert(msg);
+    btn.textContent = originalText;
+    btn.disabled = false;
+    btn.style.opacity = '';
+  }
 }
 
 /* ── FAQ Toggle ── */
