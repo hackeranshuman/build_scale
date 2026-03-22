@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildScale — Azure Deployment Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0d0d14;
+  --surface: #13131f;
+  --card:    #1a1a28;
+  --border:  rgba(255,255,255,0.07);
+  --accent:  #ff4d1c;
+  --blue:    #3b82f6;
+  --green:   #22c55e;
+  --yellow:  #f59e0b;
+  --purple:  #a855f7;
+  --text:    #f0eff8;
+  --muted:   rgba(240,239,248,0.4);
+  --dim:     rgba(240,239,248,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── LAYOUT ── */
+.shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.sidebar-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -.03em;
+  color: var(--text);
+  margin-bottom: .3rem;
+}
+.sidebar-brand span { color: var(--accent); }
+.sidebar-sub {
+  font-size: .7rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.sidebar-section-label {
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: .8rem 0 .4rem;
+  font-weight: 500;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem .75rem;
+  border-radius: 4px;
+  font-size: .78rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all .2s;
+  margin-bottom: 1px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+}
+.sidebar-link:hover { background: rgba(255,255,255,.04); color: var(--text); }
+.sidebar-link.active {
+  background: rgba(255,77,28,.1);
+  border-color: rgba(255,77,28,.2);
+  color: var(--accent);
+  font-weight: 500;
+}
+.sidebar-link .step-num {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .6rem; font-weight: 700;
+  flex-shrink: 0;
+  transition: background .2s;
+}
+.sidebar-link.active .step-num { background: var(--accent); color: white; }
+.sidebar-link.done .step-num { background: var(--green); color: white; }
+.sidebar-link.done { color: rgba(34,197,94,.6); }
+
+.progress-wrap {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.progress-label {
+  font-size: .7rem;
+  color: var(--muted);
+  margin-bottom: .6rem;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+  border-radius: 2px;
+  transition: width .4s ease;
+  width: 0%;
+}
+
+/* ── MAIN CONTENT ── */
+.main {
+  padding: 3rem 3.5rem;
+  max-width: 860px;
+}
+
+/* ── TOP HEADER ── */
+.guide-header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.guide-eyebrow {
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: .8rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.guide-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
+.guide-header h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.6rem;
+  letter-spacing: -.04em;
+  line-height: 1.1;
+  margin-bottom: .8rem;
+}
+.guide-header h1 em { color: var(--blue); font-style: normal; }
+.guide-header p {
+  font-size: .95rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* Meta badges */
+.meta-row {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+.meta-badge {
+  font-size: .7rem;
+  font-weight: 500;
+  padding: .3rem .8rem;
+  border-radius: 2px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.meta-badge.time  { border-color: rgba(59,130,246,.3); color: var(--blue);   background: rgba(59,130,246,.08); }
+.meta-badge.level { border-color: rgba(34,197,94,.3);  color: var(--green);  background: rgba(34,197,94,.08); }
+.meta-badge.cost  { border-color: rgba(245,158,11,.3); color: var(--yellow); background: rgba(245,158,11,.08); }
+.meta-badge.os    { border-color: rgba(168,85,247,.3); color: var(--purple); background: rgba(168,85,247,.08); }
+
+/* ── WARNING BOX ── */
+.warn-box, .info-box, .success-box, .danger-box {
+  padding: 1.1rem 1.4rem;
+  border-radius: 6px;
+  margin: 1.5rem 0;
+  font-size: .875rem;
+  line-height: 1.65;
+  font-weight: 300;
+  border-left: 3px solid;
+}
+.warn-box    { background: rgba(245,158,11,.07);  border-color: var(--yellow); color: #fbbf24; }
+.info-box    { background: rgba(59,130,246,.07);  border-color: var(--blue);   color: #93c5fd; }
+.success-box { background: rgba(34,197,94,.07);   border-color: var(--green);  color: #86efac; }
+.danger-box  { background: rgba(255,77,28,.07);   border-color: var(--accent); color: #fca5a5; }
+.warn-box strong, .info-box strong, .success-box strong, .danger-box strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: .3rem;
+  font-size: .8rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ── STEP SECTIONS ── */
+.step-section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 2rem;
+}
+.step-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.step-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: .85rem;
+  flex-shrink: 0;
+  margin-top: .2rem;
+}
+.step-badge.blue   { background: rgba(59,130,246,.15);  color: var(--blue);   border: 1px solid rgba(59,130,246,.25); }
+.step-badge.green  { background: rgba(34,197,94,.15);   color: var(--green);  border: 1px solid rgba(34,197,94,.25); }
+.step-badge.yellow { background: rgba(245,158,11,.15);  color: var(--yellow); border: 1px solid rgba(245,158,11,.25); }
+.step-badge.purple { background: rgba(168,85,247,.15);  color: var(--purple); border: 1px solid rgba(168,85,247,.25); }
+.step-badge.accent { background: rgba(255,77,28,.15);   color: var(--accent); border: 1px solid rgba(255,77,28,.25); }
+.step-badge.teal   { background: rgba(20,184,166,.15);  color: #2dd4bf;       border: 1px solid rgba(20,184,166,.25); }
+
+.step-title-wrap {}
+.step-label {
+  font-size: .65rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  font-weight: 500;
+  margin-bottom: .2rem;
+}
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.45rem;
+  letter-spacing: -.03em;
+  line-height: 1.2;
+}
+
+.step-body p {
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.75;
+  font-weight: 300;
+  margin-bottom: .9rem;
+}
+.step-body p strong { color: var(--text); font-weight: 500; }
+.step-body ul, .step-body ol {
+  padding-left: 1.4rem;
+  margin-bottom: 1rem;
+}
+.step-body li {
+  font-size: .875rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: .3rem;
+}
+.step-body li strong { color: var(--text); font-weight: 500; }
+
+/* ── CODE BLOCKS ── */
+.code-block {
+  background: #0a0a12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.2rem 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .6rem 1rem;
+  background: rgba(255,255,255,.03);
+  border-bottom: 1px solid var(--border);
+  font-size: .7rem;
+  color: var(--dim);
+}
+.code-header .code-lang {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.code-dots { display: flex; gap: .35rem; }
+.code-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.code-dot:nth-child(1) { background: #ff5f57; }
+.code-dot:nth-child(2) { background: #febc2e; }
+.code-dot:nth-child(3) { background: #28c840; }
+
+.copy-btn {
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: .25rem .7rem;
+  border-radius: 3px;
+  font-size: .68rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+}
+.copy-btn:hover { background: rgba(255,255,255,.12); color: var(--text); }
+.copy-btn.copied { color: var(--green); border-color: rgba(34,197,94,.3); }
+
+.code-content {
+  padding: 1.2rem 1.2rem;
+  overflow-x: auto;
+  font-size: .82rem;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+.code-content .comment { color: #6e7681; }
+.code-content .cmd { color: #79c0ff; }
+.code-content .str { color: #a5d6ff; }
+.code-content .kw  { color: #ff7b72; }
+.code-content .val { color: #ffa657; }
+.code-content .prompt { color: #3fb950; user-select: none; }
+
+/* ── CHECKLIST ── */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 1.2rem 0;
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+  padding: .85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: .875rem;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+.check-item:hover { border-color: rgba(255,255,255,.15); }
+.check-item.checked { border-color: rgba(34,197,94,.2); background: rgba(34,197,94,.04); }
+.check-box {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--dim);
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: .1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem;
+  transition: all .2s;
+}
+.check-item.checked .check-box {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.check-text { color: var(--muted); font-weight: 300; line-height: 1.5; }
+.check-text strong { color: var(--text); font-weight: 500; }
+.check-item.checked .check-text { color: rgba(240,239,248,.35); }
+
+/* ── FILE TREE ── */
+.file-tree {
+  background: #0a0a12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  margin: 1.2rem 0;
+  line-height: 1.9;
+}
+.ft-folder { color: var(--yellow); }
+.ft-file   { color: #c9d1d9; }
+.ft-new    { color: var(--green); }
+.ft-change { color: var(--accent); }
+.ft-comment{ color: #6e7681; font-size: .72rem; }
+.ft-indent { padding-left: 1.2rem; }
+
+/* ── COMPARISON TABLE ── */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: .83rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.compare-table th {
+  background: var(--card);
+  padding: .8rem 1rem;
+  text-align: left;
+  font-size: .68rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--dim);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.compare-table td {
+  padding: .8rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 300;
+  vertical-align: top;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: rgba(255,255,255,.02); }
+.compare-table td strong { color: var(--text); font-weight: 500; }
+.tag { font-size: .65rem; font-weight: 600; padding: .15rem .5rem; border-radius: 2px; }
+.tag.good { background: rgba(34,197,94,.12); color: var(--green); }
+.tag.warn { background: rgba(245,158,11,.12); color: var(--yellow); }
+.tag.bad  { background: rgba(255,77,28,.12);  color: var(--accent); }
+
+/* ── STEP DIVIDER ── */
+.step-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 3rem 0;
+}
+
+/* ── COMPLETE BANNER ── */
+.complete-banner {
+  background: linear-gradient(135deg, rgba(34,197,94,.1) 0%, rgba(59,130,246,.1) 100%);
+  border: 1px solid rgba(34,197,94,.2);
+  border-radius: 12px;
+  padding: 2.5rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+.complete-banner .icon { font-size: 3rem; margin-bottom: 1rem; }
+.complete-banner h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -.03em;
+  margin-bottom: .6rem;
+}
+.complete-banner p {
+  font-size: .9rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.65;
+}
+.complete-links {
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.complete-link {
+  padding: .65rem 1.4rem;
+  border-radius: 4px;
+  font-size: .85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all .2s;
+}
+.complete-link.primary { background: var(--green); color: #0a0a0f; }
+.complete-link.primary:hover { background: #16a34a; }
+.complete-link.secondary { background: rgba(255,255,255,.07); color: var(--text); border: 1px solid var(--border); }
+.complete-link.secondary:hover { background: rgba(255,255,255,.12); }
+
+/* ── INLINE BADGE ── */
+.inline-badge {
+  display: inline-block;
+  font-size: .68rem;
+  font-weight: 600;
+  padding: .15rem .5rem;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.inline-badge.free    { background: rgba(34,197,94,.12); color: var(--green); }
+.inline-badge.paid    { background: rgba(245,158,11,.12); color: var(--yellow); }
+.inline-badge.azure   { background: rgba(59,130,246,.12); color: var(--blue); }
+.inline-badge.new     { background: rgba(255,77,28,.12); color: var(--accent); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div>
+      <div class="sidebar-brand">Build<span>Scale</span></div>
+      <div class="sidebar-sub">Azure Deployment Guide</div>
+    </div>
+
+    <div class="sidebar-section-label">Before You Start</div>
+    <a class="sidebar-link active" onclick="scrollTo('s0')">
+      <span class="step-num">⚠</span> Problems to Know
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s1')">
+      <span class="step-num">📋</span> Prerequisites
+    </a>
+
+    <div class="sidebar-section-label">Prepare Your Project</div>
+    <a class="sidebar-link" onclick="scrollTo('s2')">
+      <span class="step-num">1</span> Fix server.js for Azure
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s3')">
+      <span class="step-num">2</span> Solve the JSON database
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s4')">
+      <span class="step-num">3</span> Add startup script
+    </a>
+
+    <div class="sidebar-section-label">Azure Setup</div>
+    <a class="sidebar-link" onclick="scrollTo('s5')">
+      <span class="step-num">4</span> Create Azure account
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s6')">
+      <span class="step-num">5</span> Create App Service
+    </a>
+
+    <div class="sidebar-section-label">Deploy</div>
+    <a class="sidebar-link" onclick="scrollTo('s7')">
+      <span class="step-num">6</span> Push to GitHub
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s8')">
+      <span class="step-num">7</span> Connect & Deploy
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s9')">
+      <span class="step-num">8</span> Access Admin Panel
+    </a>
+
+    <div class="sidebar-section-label">After Launch</div>
+    <a class="sidebar-link" onclick="scrollTo('s10')">
+      <span class="step-num">✓</span> Custom Domain
+    </a>
+    <a class="sidebar-link" onclick="scrollTo('s11')">
+      <span class="step-num">✓</span> Troubleshooting
+    </a>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Your progress</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main class="main">
+
+    <!-- HEADER -->
+    <div class="guide-header">
+      <div class="guide-eyebrow">Step-by-step guide</div>
+      <h1>Deploy BuildScale to <em>Microsoft Azure</em></h1>
+      <p>A complete beginner guide to deploying your Node.js + Express website — including the admin panel — to Azure App Service. Follow every step in order and you'll have a live URL in under an hour.</p>
+      <div class="meta-row">
+        <span class="meta-badge time">⏱ ~45 minutes</span>
+        <span class="meta-badge level">✦ Beginner friendly</span>
+        <span class="meta-badge cost">💳 Free tier available</span>
+        <span class="meta-badge os">🖥 Windows / Mac / Linux</span>
+      </div>
+    </div>
+
+    <!-- ══════════ SECTION 0: PROBLEMS TO KNOW ══════════ -->
+    <div class="step-section" id="s0">
+      <div class="step-header">
+        <div class="step-badge accent">⚠</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Read this first</div>
+          <div class="step-title">Problems You Will Face on Azure</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Yes, you can absolutely deploy BuildScale on Azure — but there are <strong>3 specific problems</strong> you must fix first. If you skip these, your site will deploy but the admin panel and forms won't work. Let's go through them.</p>
+
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Problem</th>
+              <th>Why it happens</th>
+              <th>Severity</th>
+              <th>Fix in step</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PORT mismatch</strong></td>
+              <td>Azure assigns its own port via <code style="font-family:JetBrains Mono;font-size:.8em">process.env.PORT</code> — your server must listen on it</td>
+              <td><span class="tag bad">Critical</span></td>
+              <td>Step 1</td>
+            </tr>
+            <tr>
+              <td><strong>tickets.json gets wiped</strong></td>
+              <td>Azure's file system is <strong>ephemeral</strong> — any file your app writes gets deleted on restart or redeploy</td>
+              <td><span class="tag bad">Critical</span></td>
+              <td>Step 2</td>
+            </tr>
+            <tr>
+              <td><strong>App doesn't start</strong></td>
+              <td>Azure needs to know which file to run — your <code style="font-family:JetBrains Mono;font-size:.8em">package.json</code> must have a start script</td>
+              <td><span class="tag warn">Important</span></td>
+              <td>Step 3</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warn-box">
+          <strong>⚠ The JSON database problem</strong>
+          Your current <code style="font-family:JetBrains Mono;font-size:.85em">tickets.json</code> file stores all your data. On Azure, every time your app restarts (which can happen automatically), this file gets reset. This means <strong>all your tickets and enquiries will be deleted</strong>. Step 2 shows you the fix.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ SECTION 1: PREREQUISITES ══════════ -->
+    <div class="step-section" id="s1">
+      <div class="step-header">
+        <div class="step-badge blue">📋</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Before you begin</div>
+          <div class="step-title">What You Need Installed</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Make sure you have all of these before starting. Click each item to mark it done.</p>
+
+        <div class="checklist" id="prereqList">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Node.js LTS</strong> — Download from nodejs.org. Run <code style="font-family:JetBrains Mono;font-size:.85em">node --version</code> to confirm it's installed.</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Git</strong> — Download from git-scm.com. Run <code style="font-family:JetBrains Mono;font-size:.85em">git --version</code> to confirm.</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>VS Code</strong> — Free editor from code.visualstudio.com. This guide uses VS Code for everything.</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>GitHub account</strong> — Free at github.com. You'll push your code here and Azure will pull from it.</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Microsoft Azure account</strong> — Free at azure.microsoft.com. Includes $200 free credit for 30 days + always-free tier.</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Your BuildScale project</strong> — The folder with <code style="font-family:JetBrains Mono;font-size:.85em">server.js</code>, <code style="font-family:JetBrains Mono;font-size:.85em">package.json</code>, and your HTML files.</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Folder structure check</strong>
+          Your project folder should look like this before we start:
+        </div>
+
+        <div class="file-tree">
+          <span class="ft-folder">📁 buildscale/</span><br>
+          <span class="ft-indent"><span class="ft-file">📄 server.js</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 package.json</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 package-lock.json</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 tickets.json</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 index.html</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 contact_us.html</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 careers.html</span></span><br>
+          <span class="ft-indent"><span class="ft-file">📄 terms_and_policy.html</span></span><br>
+          <span class="ft-indent"><span class="ft-folder">📁 public/</span></span><br>
+          <span class="ft-indent"><span class="ft-indent"><span class="ft-file">📄 support.html</span></span></span><br>
+          <span class="ft-indent"><span class="ft-folder">📁 src/</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 1: FIX SERVER.JS ══════════ -->
+    <div class="step-section" id="s2">
+      <div class="step-header">
+        <div class="step-badge blue">01</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Fix your code</div>
+          <div class="step-title">Update server.js for Azure</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Azure assigns a random port number to your app via an environment variable called <code style="font-family:JetBrains Mono;font-size:.85em">process.env.PORT</code>. Your server.js already handles this correctly, but let's double-check and also add the trust proxy setting that Azure requires.</p>
+
+        <p>Open <strong>server.js</strong> in VS Code. Find the PORT line and the app.listen line. Make sure they look <strong>exactly</strong> like this:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              server.js — PORT fix
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+<span class="comment">// ✅ This is already in your server.js — just verify it's there</span>
+<span class="kw">const</span> PORT = process.env.PORT || <span class="val">3000</span>;
+
+<span class="comment">// ✅ Add this line right after you create the app (after: const app = express())</span>
+app.set(<span class="str">'trust proxy'</span>, <span class="val">1</span>);
+
+<span class="comment">// ✅ Your app.listen should use the PORT variable — verify this too</span>
+app.listen(PORT, () => {
+  console.log(<span class="str">`Server running on port ${PORT}`</span>);
+});
+          </div>
+        </div>
+
+        <div class="success-box">
+          <strong>✅ Your server.js already has this!</strong>
+          Looking at your code, <code style="font-family:JetBrains Mono;font-size:.82em">const PORT = process.env.PORT || 3000</code> is already there. Just add the <code style="font-family:JetBrains Mono;font-size:.82em">app.set('trust proxy', 1)</code> line right after <code style="font-family:JetBrains Mono;font-size:.82em">const app = express();</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 2: FIX JSON DATABASE ══════════ -->
+    <div class="step-section" id="s3">
+      <div class="step-header">
+        <div class="step-badge yellow">02</div>
+        <div class="step-title-wrap">
+          <div class="step-label">The most important fix</div>
+          <div class="step-title">Solve the Disappearing Data Problem</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>This is the biggest issue. Azure's file system is <strong>not permanent</strong>. Your tickets.json will get wiped every time Azure restarts your app (which it does automatically). You have two options:</p>
+
+        <table class="compare-table">
+          <thead>
+            <tr><th>Option</th><th>Difficulty</th><th>Cost</th><th>Recommended?</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Option A</strong><br>Use Azure Storage (Blob) to save the JSON file</td>
+              <td>Medium</td>
+              <td><span class="tag good">~Free</span></td>
+              <td><span class="tag warn">Short term</span></td>
+            </tr>
+            <tr>
+              <td><strong>Option B</strong><br>Switch to Azure Cosmos DB (MongoDB-compatible)</td>
+              <td>Medium</td>
+              <td><span class="tag good">Free tier</span></td>
+              <td><span class="tag good">Best long term</span></td>
+            </tr>
+            <tr>
+              <td><strong>Option C ← Easiest</strong><br>Use Azure App Service "Persistent Storage" path <code style="font-family:JetBrains Mono;font-size:.8em">/home</code></td>
+              <td><span class="tag good">Easy</span></td>
+              <td><span class="tag good">Free</span></td>
+              <td><span class="tag good">✅ Do this now</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p><strong>Option C — The Easy Fix:</strong> Azure App Service on Linux has a special folder called <code style="font-family:JetBrains Mono;font-size:.85em">/home</code> that persists across restarts. We just need to tell your app to save tickets.json there instead of in the project folder.</p>
+
+        <p>Open <strong>server.js</strong> and find the <code style="font-family:JetBrains Mono;font-size:.85em">DB_FILE</code> line. Change it to this:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              server.js — persistent storage fix
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+<span class="comment">// ❌ BEFORE (data gets wiped on restart):</span>
+<span class="kw">const</span> DB_FILE = path.join(__dirname, <span class="str">'tickets.json'</span>);
+
+<span class="comment">// ✅ AFTER (data survives restarts on Azure):</span>
+<span class="kw">const</span> DB_FILE = process.env.WEBSITE_INSTANCE_ID
+  ? path.join(<span class="str">'/home'</span>, <span class="str">'tickets.json'</span>)   <span class="comment">// Azure Linux persistent storage</span>
+  : path.join(__dirname, <span class="str">'tickets.json'</span>);   <span class="comment">// Local development (unchanged)</span>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 How this works</strong>
+          <code style="font-family:JetBrains Mono;font-size:.82em">WEBSITE_INSTANCE_ID</code> is an environment variable that Azure automatically sets. So on Azure it saves to <code style="font-family:JetBrains Mono;font-size:.82em">/home/tickets.json</code> (permanent), and on your laptop it saves to your project folder (same as before). No changes to your local workflow.
+        </div>
+
+        <p>Then in the Azure Portal (we'll get to this in Step 5), you need to enable Persistent Storage. Go to: <strong>App Service → Configuration → General Settings → Persistent Storage → On</strong></p>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 3: package.json START SCRIPT ══════════ -->
+    <div class="step-section" id="s4">
+      <div class="step-header">
+        <div class="step-badge green">03</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Tell Azure how to start your app</div>
+          <div class="step-title">Add a Start Script to package.json</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Azure needs to know which command to run to start your app. Open <strong>package.json</strong> and update the <code style="font-family:JetBrains Mono;font-size:.85em">scripts</code> section to include a <code style="font-family:JetBrains Mono;font-size:.85em">start</code> command:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              package.json
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+{
+  <span class="str">"name"</span>: <span class="str">"build_scale"</span>,
+  <span class="str">"version"</span>: <span class="str">"1.0.0"</span>,
+  <span class="str">"main"</span>: <span class="str">"server.js"</span>,
+  <span class="str">"scripts"</span>: {
+    <span class="str">"start"</span>: <span class="str">"node server.js"</span>,  <span class="comment">← ADD THIS LINE</span>
+    <span class="str">"test"</span>: <span class="str">"echo \"Error: no test specified\" && exit 1"</span>
+  },
+  <span class="str">"engines"</span>: {
+    <span class="str">"node"</span>: <span class="str">">=18.0.0"</span>          <span class="comment">← ADD THIS SECTION TOO</span>
+  },
+  <span class="str">"dependencies"</span>: {
+    <span class="str">"cors"</span>: <span class="str">"^2.8.6"</span>,
+    <span class="str">"express"</span>: <span class="str">"^5.2.1"</span>,
+    <span class="str">"uuid"</span>: <span class="str">"^13.0.0"</span>
+  }
+}
+          </div>
+        </div>
+
+        <div class="warn-box">
+          <strong>⚠ Remove the "stack" dependency</strong>
+          Your package.json includes <code style="font-family:JetBrains Mono;font-size:.85em">"stack": "^0.1.0"</code> in dependencies, but your server.js doesn't actually use it. Remove it to keep things clean: delete the line <code style="font-family:JetBrains Mono;font-size:.85em">"stack": "^0.1.0",</code> from package.json.
+        </div>
+
+        <p>Also create a <strong>.gitignore</strong> file in your project root so you don't accidentally upload node_modules to GitHub (it's huge and unnecessary):</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              .gitignore — create this new file
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+node_modules/
+.env
+.azure/
+*.log
+.DS_Store
+Thumbs.db
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 4: AZURE ACCOUNT ══════════ -->
+    <div class="step-section" id="s5">
+      <div class="step-header">
+        <div class="step-badge purple">04</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Azure setup</div>
+          <div class="step-title">Create Your Azure Account</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>If you don't have an Azure account, follow these steps. If you do, skip to Step 5.</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Go to <strong>azure.microsoft.com</strong> and click <strong>"Start free"</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Sign in with a Microsoft account (or create one — it's free)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Enter a credit/debit card <strong>(you won't be charged)</strong> — Azure needs it for identity verification on the free tier</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Complete the signup. You'll get <strong>$200 free credit</strong> valid for 30 days + always-free services</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">You're taken to the Azure Portal at <strong>portal.azure.com</strong> — this is your control panel</div>
+          </div>
+        </div>
+
+        <div class="success-box">
+          <strong>✅ Free tier is fine for BuildScale</strong>
+          The <strong>F1 Free</strong> App Service plan (which we'll use) is completely free with no time limit. It has some limitations (shared CPU, sleeps after inactivity) but is perfect to start. You can upgrade to B1 Basic (~$13/month) when you need always-on performance.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 5: CREATE APP SERVICE ══════════ -->
+    <div class="step-section" id="s6">
+      <div class="step-header">
+        <div class="step-badge purple">05</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Azure Portal</div>
+          <div class="step-title">Create Your App Service</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>App Service is Azure's platform for hosting web apps. Follow these steps exactly in the Azure Portal:</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">In the Azure Portal, click <strong>"Create a resource"</strong> (the big + button)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Search for <strong>"Web App"</strong> and click it, then click <strong>Create</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Subscription:</strong> Leave as default (your free subscription)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Resource Group:</strong> Click "Create new" → type <code style="font-family:JetBrains Mono;font-size:.85em">buildscale-rg</code> → OK</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Name:</strong> Type something unique like <code style="font-family:JetBrains Mono;font-size:.85em">buildscale-app</code> (this becomes your URL: buildscale-app.azurewebsites.net)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Publish:</strong> Select <strong>Code</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Runtime stack:</strong> Select <strong>Node 22 LTS</strong> (or Node 20 LTS)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Operating System:</strong> Select <strong>Linux</strong> (cheaper and better for Node.js)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Region:</strong> Choose <strong>Central India</strong> or <strong>South India</strong> (closest to you in Bareilly)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Pricing Plan:</strong> Click "Create new" → name it <code style="font-family:JetBrains Mono;font-size:.85em">buildscale-plan</code> → choose <strong>F1 Free</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click <strong>"Review + Create"</strong> → then <strong>"Create"</strong> — wait 2–3 minutes</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">When done, click <strong>"Go to resource"</strong> — you're now in your App Service</div>
+          </div>
+        </div>
+
+        <p>Now enable Persistent Storage so your tickets.json survives restarts:</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">In your App Service, click <strong>Configuration</strong> in the left sidebar</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click the <strong>General settings</strong> tab</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Scroll down to find <strong>"Persistent storage"</strong> and toggle it <strong>On</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click <strong>Save</strong> at the top → click <strong>Continue</strong> in the confirmation popup</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 6: PUSH TO GITHUB ══════════ -->
+    <div class="step-section" id="s7">
+      <div class="step-header">
+        <div class="step-badge teal">06</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Version control</div>
+          <div class="step-title">Push Your Code to GitHub</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Azure will deploy directly from GitHub. Open a terminal (in VS Code: press <strong>Ctrl + `</strong>) and run these commands one by one from inside your project folder:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              Terminal — run these commands in order
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy all</button>
+          </div>
+          <div class="code-content">
+<span class="comment"># 1. Initialize git in your project folder (only do this once)</span>
+<span class="prompt">$</span> <span class="cmd">git init</span>
+
+<span class="comment"># 2. Stage all your files for commit</span>
+<span class="prompt">$</span> <span class="cmd">git add .</span>
+
+<span class="comment"># 3. Create your first commit</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "Initial BuildScale deployment"</span>
+
+<span class="comment"># 4. Go to github.com → New Repository → name it "buildscale" → Create
+#    Copy the repository URL (looks like: https://github.com/yourusername/buildscale.git)
+#    Then run this (replace the URL with yours):</span>
+<span class="prompt">$</span> <span class="cmd">git remote add origin https://github.com/YOUR_USERNAME/buildscale.git</span>
+
+<span class="comment"># 5. Push your code to GitHub</span>
+<span class="prompt">$</span> <span class="cmd">git branch -M main</span>
+<span class="prompt">$</span> <span class="cmd">git push -u origin main</span>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 First time using Git?</strong>
+          When you run <code style="font-family:JetBrains Mono;font-size:.82em">git push</code>, it may ask for your GitHub username and password. For the password, you need to use a <strong>Personal Access Token</strong> (not your GitHub password). Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Generate new token → check "repo" scope → copy the token and use it as the password.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 7: CONNECT & DEPLOY ══════════ -->
+    <div class="step-section" id="s8">
+      <div class="step-header">
+        <div class="step-badge accent">07</div>
+        <div class="step-title-wrap">
+          <div class="step-label">The big moment</div>
+          <div class="step-title">Connect GitHub to Azure & Deploy</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Now we connect your GitHub repository to Azure so it automatically deploys every time you push code.</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">In your App Service on Azure Portal, click <strong>Deployment Center</strong> in the left sidebar</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Under <strong>Source</strong>, select <strong>GitHub</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click <strong>Authorize</strong> and sign in to your GitHub account</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Organization:</strong> Select your GitHub username</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Repository:</strong> Select <code style="font-family:JetBrains Mono;font-size:.85em">buildscale</code></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text"><strong>Branch:</strong> Select <code style="font-family:JetBrains Mono;font-size:.85em">main</code></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click <strong>Save</strong> at the top</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Azure automatically triggers the first deployment — watch the <strong>Logs</strong> tab to see progress</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Wait 3–5 minutes for deployment to complete (you'll see a ✅ green checkmark)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click the URL at the top of your App Service (something like <strong>buildscale-app.azurewebsites.net</strong>) — your site is live! 🎉</div>
+          </div>
+        </div>
+
+        <div class="success-box">
+          <strong>🚀 Auto-deploy is now set up!</strong>
+          From now on, every time you run <code style="font-family:JetBrains Mono;font-size:.82em">git push</code> from your laptop, Azure will automatically redeploy your site within 2–3 minutes. No manual steps needed.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 8: ADMIN PANEL ══════════ -->
+    <div class="step-section" id="s9">
+      <div class="step-header">
+        <div class="step-badge green">08</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Most important for you</div>
+          <div class="step-title">Accessing the Admin Panel on Azure</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Your admin panel is built into your Express server and is served at the <code style="font-family:JetBrains Mono;font-size:.85em">/admin</code> route. Once deployed, you access it at:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              Your admin panel URLs (replace with your actual app name)
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+<span class="comment"># Admin dashboard (tickets + enquiries)</span>
+https://buildscale-app.azurewebsites.net/admin
+
+<span class="comment"># All tickets as JSON</span>
+https://buildscale-app.azurewebsites.net/api/tickets
+
+<span class="comment"># All enquiries as JSON</span>
+https://buildscale-app.azurewebsites.net/api/enquiries
+
+<span class="comment"># Dashboard stats</span>
+https://buildscale-app.azurewebsites.net/api/stats
+          </div>
+        </div>
+
+        <div class="danger-box">
+          <strong>🔒 Security Warning — Protect Your Admin Panel</strong>
+          Right now, anyone who knows the URL can access your admin panel. Before going live, you should add password protection. Here's the simplest way — add this to your server.js:
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              server.js — add basic admin password protection
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+<span class="comment">// Add this BEFORE your app.get('/admin', ...) route</span>
+
+<span class="comment">// Simple admin password middleware</span>
+<span class="kw">function</span> adminAuth(req, res, next) {
+  <span class="kw">const</span> adminPassword = process.env.ADMIN_PASSWORD || <span class="str">'changeme123'</span>;
+  <span class="kw">const</span> auth = req.headers.authorization;
+
+  <span class="kw">if</span> (!auth || !auth.startsWith(<span class="str">'Basic '</span>)) {
+    res.set(<span class="str">'WWW-Authenticate'</span>, <span class="str">'Basic realm="BuildScale Admin"'</span>);
+    <span class="kw">return</span> res.status(<span class="val">401</span>).send(<span class="str">'Unauthorized'</span>);
+  }
+
+  <span class="kw">const</span> credentials = Buffer.from(auth.slice(<span class="val">6</span>), <span class="str">'base64'</span>).toString();
+  <span class="kw">const</span> [user, pass] = credentials.split(<span class="str">':'</span>);
+
+  <span class="kw">if</span> (user === <span class="str">'admin'</span> && pass === adminPassword) {
+    <span class="kw">return</span> next();
+  }
+
+  res.set(<span class="str">'WWW-Authenticate'</span>, <span class="str">'Basic realm="BuildScale Admin"'</span>);
+  res.status(<span class="val">401</span>).send(<span class="str">'Wrong credentials'</span>);
+}
+
+<span class="comment">// Now protect the admin routes</span>
+app.get(<span class="str">'/admin'</span>, adminAuth, (req, res) => {
+  res.send(getAdminHTML());
+});
+app.get(<span class="str">'/api/tickets'</span>, adminAuth, (req, res) => { <span class="comment">/* existing code */</span> });
+app.get(<span class="str">'/api/enquiries'</span>, adminAuth, (req, res) => { <span class="comment">/* existing code */</span> });
+          </div>
+        </div>
+
+        <p>Then set your password securely in Azure (never hardcode it). In the Azure Portal:</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Go to your App Service → <strong>Configuration</strong> → <strong>Application settings</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click <strong>+ New application setting</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Name: <code style="font-family:JetBrains Mono;font-size:.85em">ADMIN_PASSWORD</code> — Value: your chosen password (make it strong!)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Click <strong>OK</strong> then <strong>Save</strong></div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 How login works</strong>
+          When you visit <code style="font-family:JetBrains Mono;font-size:.82em">/admin</code>, your browser will pop up a login dialog. Enter username: <code style="font-family:JetBrains Mono;font-size:.82em">admin</code> and the password you set in Azure settings. Your browser will remember it for the session.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 9: CUSTOM DOMAIN ══════════ -->
+    <div class="step-section" id="s10">
+      <div class="step-header">
+        <div class="step-badge teal">✓</div>
+        <div class="step-title-wrap">
+          <div class="step-label">Optional but recommended</div>
+          <div class="step-title">Connect a Custom Domain</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Right now your site is at <code style="font-family:JetBrains Mono;font-size:.85em">something.azurewebsites.net</code>. To use your own domain (like <code style="font-family:JetBrains Mono;font-size:.85em">buildscale.io</code>), follow these steps:</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Buy a domain from GoDaddy, Namecheap, Google Domains, or any registrar</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">In Azure App Service → <strong>Custom domains</strong> → <strong>+ Add custom domain</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Enter your domain (e.g. <code style="font-family:JetBrains Mono;font-size:.85em">www.buildscale.io</code>) → click <strong>Validate</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Azure shows you DNS records to add. Go to your domain registrar and add them (a CNAME and TXT record)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Wait 15–60 minutes for DNS to propagate, then click <strong>Add custom domain</strong></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"></div>
+            <div class="check-text">Enable <strong>HTTPS / SSL</strong>: In Custom domains → your domain → <strong>Add binding</strong> → App Service Managed Certificate (free!)</div>
+          </div>
+        </div>
+
+        <div class="warn-box">
+          <strong>⚠ Custom domains need at least B1 plan</strong>
+          The free F1 plan does not support custom domains. You'll need to upgrade to at least <strong>B1 Basic (~₹1,100/month)</strong> to use your own domain. The azurewebsites.net URL works fine on the free plan.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-divider"></div>
+
+    <!-- ══════════ STEP 10: TROUBLESHOOTING ══════════ -->
+    <div class="step-section" id="s11">
+      <div class="step-header">
+        <div class="step-badge accent">✓</div>
+        <div class="step-title-wrap">
+          <div class="step-label">When things go wrong</div>
+          <div class="step-title">Common Problems & Fixes</div>
+        </div>
+      </div>
+      <div class="step-body">
+
+        <table class="compare-table">
+          <thead>
+            <tr><th>Problem</th><th>Cause</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Site shows "Application Error" or 500</strong></td>
+              <td>App crashed on startup</td>
+              <td>Go to App Service → <strong>Log stream</strong> (left sidebar) to see the error in real time</td>
+            </tr>
+            <tr>
+              <td><strong>"Cannot find module" error</strong></td>
+              <td>node_modules not installed</td>
+              <td>Make sure <code style="font-family:JetBrains Mono;font-size:.85em">package.json</code> has a <code style="font-family:JetBrains Mono;font-size:.85em">"start"</code> script. Azure runs <code style="font-family:JetBrains Mono;font-size:.85em">npm install</code> automatically if it sees package.json</td>
+            </tr>
+            <tr>
+              <td><strong>Form submissions return 404 or network error</strong></td>
+              <td>API routes not found</td>
+              <td>Check that your HTML files are calling the correct API URL. On Azure they should use relative paths like <code style="font-family:JetBrains Mono;font-size:.85em">/api/tickets</code> (not localhost)</td>
+            </tr>
+            <tr>
+              <td><strong>Site works but admin shows blank</strong></td>
+              <td>JavaScript error in admin HTML</td>
+              <td>Open browser DevTools (F12) → Console tab to see errors</td>
+            </tr>
+            <tr>
+              <td><strong>Tickets disappear after a day</strong></td>
+              <td>Persistent Storage not enabled</td>
+              <td>Go back to Step 2 and enable Persistent Storage in Azure Portal</td>
+            </tr>
+            <tr>
+              <td><strong>Deployment succeeded but site is old</strong></td>
+              <td>Browser cache</td>
+              <td>Hard refresh: <strong>Ctrl+Shift+R</strong> (Windows) or <strong>Cmd+Shift+R</strong> (Mac)</td>
+            </tr>
+            <tr>
+              <td><strong>App sleeps and takes 10–20s to load</strong></td>
+              <td>F1 free plan goes to sleep after inactivity</td>
+              <td>Normal on F1. Upgrade to B1 for always-on, or use a free service like UptimeRobot to ping your site every 5 minutes</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>To view your live logs anytime, run this in your terminal (with Azure CLI installed):</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              Terminal — view live logs
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+<span class="comment"># Install Azure CLI first: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli</span>
+<span class="prompt">$</span> <span class="cmd">az login</span>
+
+<span class="comment"># Then stream live logs (replace with your names)</span>
+<span class="prompt">$</span> <span class="cmd">az webapp log tail \
+    --resource-group buildscale-rg \
+    --name buildscale-app</span>
+          </div>
+        </div>
+
+        <p>Or view logs directly in the Azure Portal: App Service → <strong>Log stream</strong> in the left sidebar. You'll see every console.log() from your server.js in real time.</p>
+
+        <p><strong>How to redeploy after making changes:</strong></p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-lang">
+              <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+              Terminal — update your live site (run every time you make changes)
+            </div>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-content">
+<span class="comment"># After making any changes to your code:</span>
+<span class="prompt">$</span> <span class="cmd">git add .</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "describe what you changed"</span>
+<span class="prompt">$</span> <span class="cmd">git push</span>
+
+<span class="comment"># Azure automatically redeploys in 2-3 minutes. That's it!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ COMPLETE BANNER ══════════ -->
+    <div class="complete-banner">
+      <div class="icon">🚀</div>
+      <h2>BuildScale is live on Azure!</h2>
+      <p>Your website, admin panel, and all API endpoints are deployed and running. Every form submission from contact_us.html, support.html, and careers.html will save to your persistent tickets.json and appear in your admin panel at <code style="font-family:JetBrains Mono;font-size:.85em">/admin</code>.</p>
+      <div class="complete-links">
+        <a href="https://portal.azure.com" target="_blank" class="complete-link primary">Open Azure Portal →</a>
+        <a href="https://github.com" target="_blank" class="complete-link secondary">Open GitHub</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ── Sidebar scroll tracking ── */
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+const sections = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
+const links = document.querySelectorAll('.sidebar-link');
+
+window.addEventListener('scroll', () => {
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) current = id;
+  });
+  links.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('onclick')?.includes(current)) link.classList.add('active');
+  });
+}, { passive: true });
+
+/* ── Checklist toggle ── */
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const box = el.querySelector('.check-box');
+  box.textContent = el.classList.contains('checked') ? '✓' : '';
+  updateProgress();
+}
+
+function updateProgress() {
+  const all     = document.querySelectorAll('.check-item').length;
+  const done    = document.querySelectorAll('.check-item.checked').length;
+  const pct     = Math.round((done / all) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+
+  // Mark sidebar steps as done based on section completion
+  document.querySelectorAll('.sidebar-link').forEach((link, i) => {
+    if (i < Math.floor((done / all) * links.length) && !link.classList.contains('active')) {
+      link.classList.add('done');
+      const num = link.querySelector('.step-num');
+      if (num && !isNaN(num.textContent)) num.textContent = '✓';
+    }
+  });
+}
+
+/* ── Copy code ── */
+function copyCode(btn) {
+  const block = btn.closest('.code-block').querySelector('.code-content');
+  const text = block.innerText
+    .replace(/^\$ /gm, '')
+    .replace(/^> /gm, '');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
