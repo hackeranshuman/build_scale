@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Privacy — BuildScale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/CSS/terms.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="logo">Build<span>Scale</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="contact_us.html" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="legal-hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Legal Documents</span>
+    <h1>Terms &amp; <em>Privacy</em></h1>
+    <p class="hero-sub">
+      Clear, plain-English policies that explain how we work with you, how we handle your data, and what you can expect from BuildScale.
+    </p>
+    <div class="hero-meta">
+      <span class="meta-item">Last updated: <strong>March 2026</strong></span>
+      <span class="meta-item">Effective: <strong>1 January 2026</strong></span>
+      <span class="meta-item">Jurisdiction: <strong>India (IT Act 2000)</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ── TAB BAR ── -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('terms', this)">Terms of Service</button>
+  <button class="tab-btn" onclick="switchTab('privacy', this)">Privacy Policy</button>
+  <button class="tab-btn" onclick="switchTab('cookies', this)">Cookie Policy</button>
+  <button class="tab-btn" onclick="switchTab('refunds', this)">Refund Policy</button>
+</div>
+
+<!-- ── MAIN BODY ── -->
+<div class="legal-body">
+
+  <!-- SIDEBAR -->
+  <aside class="legal-sidebar" id="sidebar">
+    <!-- populated by JS -->
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="legal-content">
+
+    <!-- ═══════════════════ TERMS OF SERVICE ═══════════════════ -->
+    <div class="legal-panel active" id="panel-terms">
+      <div class="updated-badge">Last updated 22 March 2026</div>
+
+      <div class="legal-section" id="terms-1">
+        <div class="section-number">01 — Agreement</div>
+        <h2>Terms of Service</h2>
+        <p>These Terms of Service ("Terms") form a legally binding agreement between you ("Client," "you," or "your") and <strong>BuildScale</strong> ("we," "us," or "our"), a web design and development agency. By engaging our services, submitting a project brief, making a payment, or accessing any deliverable, you confirm that you have read, understood, and agreed to these Terms in full.</p>
+        <div class="callout callout-info">
+          <strong>Plain-English Summary</strong>
+          By working with us, you agree to these rules. They're here to protect both parties and ensure every project runs smoothly. If anything is unclear, contact us before signing.
+        </div>
+        <p>We reserve the right to update these Terms at any time. Continued use of our services after notice of changes constitutes acceptance of the updated Terms.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-2">
+        <div class="section-number">02 — Services</div>
+        <h2>Our Services</h2>
+        <p>BuildScale provides web design, web development, and related digital services including but not limited to:</p>
+        <ul>
+          <li>Custom website design and development</li>
+          <li>E-commerce store creation and configuration</li>
+          <li>SaaS dashboard and product interface design</li>
+          <li>Website redesign and performance optimisation</li>
+          <li>Domain setup, hosting configuration, and SSL installation</li>
+          <li>SEO setup, analytics integration, and conversion optimisation</li>
+          <li>Ongoing maintenance retainers and support packages</li>
+        </ul>
+        <h3>Project Scope</h3>
+        <p>All deliverables are defined in the project brief, proposal, or statement of work ("SOW") agreed upon before project commencement. Work outside the agreed scope is considered a change request and may incur additional fees and timeline adjustments. We will always notify you before commencing paid out-of-scope work.</p>
+        <h3>Third-Party Services</h3>
+        <p>Some projects may require third-party platforms (Shopify, WordPress, Vercel, Netlify, AWS, etc.). You are responsible for any fees, subscriptions, or licences associated with those platforms. BuildScale is not liable for changes, outages, or pricing changes made by third-party providers.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-3">
+        <div class="section-number">03 — Payment</div>
+        <h2>Payment Terms</h2>
+
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Deposit (upfront)</th>
+                <th>Final Payment</th>
+                <th>Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Starter</strong></td>
+                <td>50% on contract signing</td>
+                <td>50% on completion</td>
+                <td>Before final handover</td>
+              </tr>
+              <tr>
+                <td><strong>Growth</strong></td>
+                <td>50% on contract signing</td>
+                <td>50% on completion</td>
+                <td>Before final handover</td>
+              </tr>
+              <tr>
+                <td><strong>Enterprise</strong></td>
+                <td>Custom milestone-based</td>
+                <td>Per SOW agreement</td>
+                <td>Per milestone</td>
+              </tr>
+              <tr>
+                <td><strong>Retainer</strong></td>
+                <td>100% monthly, in advance</td>
+                <td>—</td>
+                <td>1st of each month</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Accepted Payment Methods</h3>
+        <p>We accept credit/debit card, UPI, NEFT/RTGS bank transfer, and international wire transfer. All prices are exclusive of applicable taxes (GST where applicable).</p>
+        <h3>Late Payments</h3>
+        <p>Invoices unpaid beyond 14 days of the due date may incur a late fee of 1.5% per month on the outstanding balance. We reserve the right to pause or withhold delivery of work until outstanding balances are settled.</p>
+        <div class="callout callout-warn">
+          <strong>Important</strong>
+          The upfront deposit is non-refundable once project work has commenced, as it covers discovery, planning, design, and resource allocation. See our Refund Policy for full details.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-4">
+        <div class="section-number">04 — Revisions</div>
+        <h2>Revisions &amp; Change Requests</h2>
+        <p>Each plan includes a defined number of revision rounds as specified in your proposal. A "revision round" means one consolidated set of feedback submitted at one time. Multiple rounds of feedback submitted separately each count as separate revision rounds.</p>
+        <h3>What Counts as a Revision</h3>
+        <ul>
+          <li><strong>Minor revision:</strong> Text changes, colour adjustments, image swaps, layout tweaks within the agreed design.</li>
+          <li><strong>Major revision:</strong> Structural redesigns, new pages, feature additions, change of direction, or anything requiring significant new design or development work.</li>
+        </ul>
+        <p>Major revisions beyond the included rounds are billed at our standard hourly rate (disclosed in your contract). We will always provide a written quote and seek your approval before commencing additional work.</p>
+        <h3>Post-Launch Changes</h3>
+        <p>Changes requested after the project has been delivered and signed off are treated as new work and quoted accordingly, unless covered by an active maintenance retainer.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-5">
+        <div class="section-number">05 — Timelines</div>
+        <h2>Project Timelines &amp; Delays</h2>
+        <p>Estimated delivery dates are provided in your proposal. Timelines are contingent on timely receipt of content, feedback, and approvals from the client. Delays caused by:</p>
+        <ul>
+          <li>Late submission of content, brand assets, or access credentials</li>
+          <li>Extended revision feedback cycles</li>
+          <li>Client-initiated scope changes</li>
+          <li>Delayed approvals at milestone stages</li>
+        </ul>
+        <p>…will result in a proportional extension of the delivery date. BuildScale will notify you promptly of any delays on our end and provide a revised schedule. We are not liable for indirect losses arising from project delays outside our reasonable control.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-6">
+        <div class="section-number">06 — Ownership & IP</div>
+        <h2>Intellectual Property</h2>
+        <h3>Client Content</h3>
+        <p>You retain full ownership of all content, brand assets, logos, images, and materials you provide to us. You warrant that you have the right to use and provide this content and that it does not infringe any third-party intellectual property rights.</p>
+        <h3>Deliverables</h3>
+        <p>Upon receipt of full and final payment, BuildScale assigns all rights to the final deliverables to you. Until final payment is received, all work-in-progress remains the intellectual property of BuildScale.</p>
+        <h3>BuildScale Portfolio Rights</h3>
+        <p>Unless you explicitly request otherwise in writing before project commencement, we reserve the right to display completed work in our portfolio, case studies, and marketing materials.</p>
+        <h3>Third-Party Assets</h3>
+        <p>Fonts, icons, stock imagery, and plugins used in your project may be subject to separate licences. We will inform you of any licenced assets that require ongoing subscription or one-time purchase by you.</p>
+        <div class="callout callout-info">
+          <strong>Open Source Components</strong>
+          Where open-source libraries are used, they remain under their respective licences (MIT, Apache 2.0, etc.) and are not covered by the IP transfer above.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-7">
+        <div class="section-number">07 — Warranties</div>
+        <h2>Warranties &amp; Liability</h2>
+        <h3>Our Warranty</h3>
+        <p>We warrant that deliverables will be free from material defects for <strong>30 days</strong> (Starter), <strong>90 days</strong> (Growth), or as specified in your Enterprise SOW from the date of final delivery. Defects caused by client modifications, third-party changes, or hosting issues are excluded.</p>
+        <h3>Limitation of Liability</h3>
+        <p>To the maximum extent permitted by applicable law, BuildScale's total liability to you for any claim arising out of or relating to these Terms shall not exceed the total fees paid by you for the specific project in question. We are not liable for:</p>
+        <ul>
+          <li>Indirect, consequential, or incidental damages</li>
+          <li>Loss of revenue, profits, or business opportunities</li>
+          <li>Data loss resulting from client-side actions or third-party hosting failures</li>
+          <li>Downtime or performance issues outside our control</li>
+        </ul>
+        <div class="callout callout-danger">
+          <strong>Disclaimer</strong>
+          BuildScale makes no guarantees regarding specific search engine rankings, conversion rates, or business results from any website we build. Digital marketing outcomes depend on many factors outside our control.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="terms-8">
+        <div class="section-number">08 — Termination</div>
+        <h2>Termination &amp; Cancellation</h2>
+        <h3>Termination by Client</h3>
+        <p>You may terminate the project by providing written notice to us. In the event of client-initiated termination:</p>
+        <ul>
+          <li>The initial deposit is non-refundable</li>
+          <li>You will be invoiced for all work completed up to the date of termination at our standard day rate</li>
+          <li>Completed deliverables will be provided upon settlement of the final invoice</li>
+        </ul>
+        <h3>Termination by BuildScale</h3>
+        <p>We reserve the right to terminate a project if: payment obligations are not met within 30 days of the due date, the client engages in abusive or inappropriate conduct towards our team, or the project requires us to produce content that violates applicable law or our ethical standards. In such cases, we will refund a pro-rated amount for incomplete work.</p>
+        <h3>Governing Law</h3>
+        <p>These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts of Mumbai, Maharashtra.</p>
+      </div>
+
+      <div class="contact-box">
+        <h3>Questions about our Terms?</h3>
+        <p>We're happy to walk you through anything before you sign. Our team responds within 24 hours on business days.</p>
+        <a href="contact_us.html">Contact Us →</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ PRIVACY POLICY ═══════════════════ -->
+    <div class="legal-panel" id="panel-privacy">
+      <div class="updated-badge">Last updated 22 March 2026</div>
+
+      <div class="legal-section" id="privacy-1">
+        <div class="section-number">01 — Overview</div>
+        <h2>Privacy Policy</h2>
+        <p>BuildScale ("we," "our," "us") is committed to protecting your personal information. This Privacy Policy explains what data we collect, why we collect it, how we use it, and your rights regarding your data. We comply with the <strong>Information Technology Act, 2000</strong> and the <strong>Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</strong>, as well as applicable international standards.</p>
+        <div class="callout callout-success">
+          <strong>Our Commitment</strong>
+          We do not sell your personal data. We do not use it for advertising. We collect only what we need to deliver our services and communicate with you.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="privacy-2">
+        <div class="section-number">02 — Data We Collect</div>
+        <h2>What Data We Collect</h2>
+
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Data Points</th>
+                <th>Why We Collect It</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Identity</strong></td>
+                <td>Name, email address, phone number</td>
+                <td>To communicate and identify you as a client</td>
+              </tr>
+              <tr>
+                <td><strong>Business</strong></td>
+                <td>Company name, website URL, industry</td>
+                <td>To understand your project context</td>
+              </tr>
+              <tr>
+                <td><strong>Project</strong></td>
+                <td>Brief details, files, brand assets</td>
+                <td>To deliver the agreed work</td>
+              </tr>
+              <tr>
+                <td><strong>Financial</strong></td>
+                <td>Invoice records, payment status</td>
+                <td>For billing and legal compliance</td>
+              </tr>
+              <tr>
+                <td><strong>Technical</strong></td>
+                <td>IP address, browser type, pages visited</td>
+                <td>Website analytics and security</td>
+              </tr>
+              <tr>
+                <td><strong>Communication</strong></td>
+                <td>Emails, chat logs, call notes</td>
+                <td>Project management and support history</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Data We Do NOT Collect</h3>
+        <ul>
+          <li>Credit card numbers or banking details (handled by PCI-compliant payment processors)</li>
+          <li>Sensitive personal data unless explicitly required for a project</li>
+          <li>Data from children under 18 — our services are not directed at minors</li>
+        </ul>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="privacy-3">
+        <div class="section-number">03 — How We Use It</div>
+        <h2>How We Use Your Data</h2>
+        <p>We use your personal data only for the following lawful purposes:</p>
+        <ul>
+          <li><strong>Service delivery:</strong> To complete your project, communicate progress, and provide support</li>
+          <li><strong>Billing &amp; contracts:</strong> To issue invoices, process payments, and maintain financial records</li>
+          <li><strong>Legal compliance:</strong> To meet obligations under Indian law, including tax and accounting requirements</li>
+          <li><strong>Service improvement:</strong> Anonymised usage data to improve our website and processes</li>
+          <li><strong>Marketing (with consent):</strong> Occasional updates about our services — you can opt out at any time</li>
+        </ul>
+        <div class="callout callout-warn">
+          <strong>Marketing Emails</strong>
+          We will only send marketing communications if you have explicitly opted in. Every marketing email includes a one-click unsubscribe link. We never send spam.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="privacy-4">
+        <div class="section-number">04 — Sharing Data</div>
+        <h2>Who We Share Your Data With</h2>
+        <p>We do not sell or rent your data to third parties. We may share your data with trusted service providers strictly for the purpose of delivering our services:</p>
+        <ul>
+          <li><strong>Payment processors</strong> (e.g., Razorpay, Stripe) — for secure payment handling</li>
+          <li><strong>Cloud storage</strong> (e.g., Google Drive, AWS S3) — for file storage during project delivery</li>
+          <li><strong>Project management tools</strong> (e.g., Notion, Trello) — for internal workflow management</li>
+          <li><strong>Email providers</strong> (e.g., Google Workspace) — for project communication</li>
+          <li><strong>Analytics tools</strong> (e.g., Google Analytics) — for anonymised website usage data</li>
+        </ul>
+        <p>All service providers are bound by data processing agreements and are required to handle your data in accordance with applicable privacy laws.</p>
+        <h3>Legal Disclosures</h3>
+        <p>We may disclose your data if required to do so by law, court order, or government authority, or to protect the rights, property, or safety of BuildScale, our clients, or others.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="privacy-5">
+        <div class="section-number">05 — Your Rights</div>
+        <h2>Your Privacy Rights</h2>
+        <p>You have the following rights regarding your personal data:</p>
+        <ul>
+          <li><strong>Access:</strong> Request a copy of all personal data we hold about you</li>
+          <li><strong>Correction:</strong> Ask us to correct inaccurate or incomplete data</li>
+          <li><strong>Deletion:</strong> Request deletion of your data (subject to legal retention obligations)</li>
+          <li><strong>Portability:</strong> Receive your data in a structured, machine-readable format</li>
+          <li><strong>Objection:</strong> Object to processing of your data for marketing purposes</li>
+          <li><strong>Withdrawal of consent:</strong> Withdraw consent at any time where processing is consent-based</li>
+        </ul>
+        <p>To exercise any of these rights, email us at <strong>privacy@buildscale.io</strong>. We will respond within 30 days.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="privacy-6">
+        <div class="section-number">06 — Retention</div>
+        <h2>Data Retention</h2>
+        <p>We retain your personal data for as long as necessary to fulfil the purposes outlined in this policy:</p>
+        <ul>
+          <li><strong>Client project files:</strong> 3 years after project completion</li>
+          <li><strong>Financial records:</strong> 7 years (as required by Indian tax law)</li>
+          <li><strong>Communication logs:</strong> 2 years after last contact</li>
+          <li><strong>Marketing opt-in records:</strong> Until you withdraw consent + 1 year</li>
+          <li><strong>Website analytics:</strong> 26 months (anonymised)</li>
+        </ul>
+        <p>After the retention period ends, data is securely deleted or anonymised.</p>
+      </div>
+
+      <div class="contact-box">
+        <h3>Privacy questions or requests?</h3>
+        <p>Reach our privacy team directly. We take every request seriously and respond within 30 days.</p>
+        <a href="mailto:privacy@buildscale.io">Email privacy@buildscale.io →</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ COOKIE POLICY ═══════════════════ -->
+    <div class="legal-panel" id="panel-cookies">
+      <div class="updated-badge">Last updated 22 March 2026</div>
+
+      <div class="legal-section" id="cookie-1">
+        <div class="section-number">01 — What Are Cookies</div>
+        <h2>Cookie Policy</h2>
+        <p>Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences, measure how you use the site, and personalise your experience. This policy explains which cookies we use on <strong>buildscale.io</strong> and why.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="cookie-2">
+        <div class="section-number">02 — Cookie Types</div>
+        <h2>Cookies We Use</h2>
+
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+                <th>Required?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Essential</strong></td>
+                <td>Core website functionality, security, form submissions</td>
+                <td>Session</td>
+                <td>Yes — cannot be disabled</td>
+              </tr>
+              <tr>
+                <td><strong>Analytics</strong></td>
+                <td>Google Analytics — anonymised usage stats (pages visited, time on site)</td>
+                <td>26 months</td>
+                <td>No — opt out anytime</td>
+              </tr>
+              <tr>
+                <td><strong>Preferences</strong></td>
+                <td>Remembers your tab selections and UI preferences</td>
+                <td>1 year</td>
+                <td>No — opt out anytime</td>
+              </tr>
+              <tr>
+                <td><strong>Marketing</strong></td>
+                <td>We currently use NO marketing or tracking cookies</td>
+                <td>—</td>
+                <td>N/A</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-success">
+          <strong>No Advertising Cookies</strong>
+          We do not use Facebook Pixel, Google Ads remarketing, or any third-party advertising cookies on our website. Your browsing behaviour is not shared with advertisers.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="cookie-3">
+        <div class="section-number">03 — Managing Cookies</div>
+        <h2>How to Control Cookies</h2>
+        <p>You can control and manage cookies in several ways:</p>
+        <h3>Browser Settings</h3>
+        <p>All major browsers allow you to view, delete, and block cookies. Here are direct links to cookie settings for common browsers:</p>
+        <ul>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener" style="color:var(--accent)">Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" target="_blank" rel="noopener" style="color:var(--accent)">Mozilla Firefox</a></li>
+          <li><a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471" target="_blank" rel="noopener" style="color:var(--accent)">Apple Safari</a></li>
+          <li><a href="https://support.microsoft.com/en-us/windows/microsoft-edge-browsing-data-and-privacy" target="_blank" rel="noopener" style="color:var(--accent)">Microsoft Edge</a></li>
+        </ul>
+        <h3>Opt out of Google Analytics</h3>
+        <p>Install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" style="color:var(--accent)">Google Analytics Opt-out Browser Add-on</a> to prevent your data from being used in our analytics reports.</p>
+        <div class="callout callout-warn">
+          <strong>Note</strong>
+          Disabling essential cookies may affect the functionality of our website, including form submissions and navigation.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ REFUND POLICY ═══════════════════ -->
+    <div class="legal-panel" id="panel-refunds">
+      <div class="updated-badge">Last updated 22 March 2026</div>
+
+      <div class="legal-section" id="refund-1">
+        <div class="section-number">01 — Overview</div>
+        <h2>Refund Policy</h2>
+        <p>We stand behind the quality of our work. This policy outlines the circumstances under which refunds are available and how to request them. Please read this carefully before engaging our services.</p>
+        <div class="callout callout-info">
+          <strong>Our Approach</strong>
+          We aim to resolve any dissatisfaction before considering a refund. If you're not happy with any aspect of our work, please contact your project manager first — we'll do everything reasonable to make it right.
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="refund-2">
+        <div class="section-number">02 — Deposit Policy</div>
+        <h2>Initial Deposit</h2>
+        <p>The initial deposit (typically 50% of the project fee) is <strong>non-refundable</strong> once project work has commenced. This deposit covers:</p>
+        <ul>
+          <li>Discovery sessions and requirements gathering</li>
+          <li>Resource allocation and project scheduling</li>
+          <li>Initial design concepts and wireframes</li>
+          <li>Strategic planning and competitor research</li>
+        </ul>
+        <p>If you cancel <strong>before</strong> any work has commenced (within 48 hours of payment and before the project kickoff call), we will refund the deposit in full, less any payment processing fees.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="refund-3">
+        <div class="section-number">03 — Mid-Project</div>
+        <h2>Cancellation During a Project</h2>
+        <p>If you cancel a project after work has commenced:</p>
+
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead>
+              <tr>
+                <th>Stage at Cancellation</th>
+                <th>Amount Refundable</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Before design phase begins</td>
+                <td>Up to 80% of remaining balance</td>
+              </tr>
+              <tr>
+                <td>During design phase</td>
+                <td>Up to 50% of remaining balance</td>
+              </tr>
+              <tr>
+                <td>During development phase</td>
+                <td>Up to 25% of remaining balance</td>
+              </tr>
+              <tr>
+                <td>After QA / near completion</td>
+                <td>No refund — full balance due</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>All completed work-in-progress will be handed over to you upon settlement of the final invoice for work completed to date.</p>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="legal-section" id="refund-4">
+        <div class="section-number">04 — Quality Issues</div>
+        <h2>Quality &amp; Dispute Refunds</h2>
+        <p>If the delivered work materially fails to meet the agreed specifications and we are unable to remedy the issue within a reasonable timeframe, you may be entitled to a partial or full refund. To be eligible:</p>
+        <ul>
+          <li>The issue must be raised within the warranty period (30–90 days, depending on your plan)</li>
+          <li>The defect must be demonstrably our error, not caused by client modification or third-party changes</li>
+          <li>You must have allowed us a reasonable opportunity (at least 14 days) to fix the issue first</li>
+        </ul>
+        <h3>How to Request a Refund</h3>
+        <ol>
+          <li>Email <strong>billing@buildscale.io</strong> with the subject line "Refund Request — [Your Name / Project]"</li>
+          <li>Include a clear description of the issue and what resolution you're seeking</li>
+          <li>Our team will respond within 5 business days with a decision or request for more information</li>
+          <li>Approved refunds are processed within 10–14 business days via the original payment method</li>
+        </ol>
+        <div class="callout callout-danger">
+          <strong>Non-Refundable Situations</strong>
+          Refunds are not available for: change of mind after work has commenced, dissatisfaction with results due to client-provided content or direction, delays caused by the client, or third-party platform issues beyond our control.
+        </div>
+      </div>
+
+      <div class="contact-box">
+        <h3>Need to discuss a refund?</h3>
+        <p>We handle every case with care. Reach out and we'll find the fairest path forward for both parties.</p>
+        <a href="mailto:anshuman.prelude@gmail.com">Email anshuman.prelude@gmail.com →</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">Build<span>Scale</span></a>
+      <p class="footer-tagline">We build websites that help small and large businesses grow — fast, beautiful, and built to last.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">𝕏</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a>
+        <a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="small_business_sites.html">Small Business Sites</a></li>
+        <li><a href="e-commerce.html">E-Commerce</a></li>
+        <li><a href="saas.html">SaaS Platforms</a></li>
+        <li><a href="enterprise.html">Enterprise</a></li>
+        <li><a href="redesign.html">Redesigns</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about_us.html">About Us</a></li>
+        <li><a href="#">Our Work</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms_conditions.html" class="current">Terms of Service</a></li>
+        <li><a href="terms_conditions.html" class="current">Privacy Policy</a></li>
+        <li><a href="terms_conditions.html" class="current">Cookie Policy</a></li>
+        <li><a href="terms_conditions.html" class="current">Refund Policy</a></li>
+        <li><a href="contact_us.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 BuildScale. All rights reserved.</p>
+    <div class="footer-legal-links">
+      <a href="terms_conditions.html" class="current">Terms</a>
+      <a href="terms_conditions.html" class="current">Privacy</a>
+      <a href="terms_conditions.html" class="current">Cookies</a>
+      <a href="terms_conditions.html" class="current">Refunds</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script src="src/Javascript/terms.js"></script>
+</body>
+</html>

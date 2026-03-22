@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+]<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -63,12 +63,12 @@
   .info-card:hover { background: var(--ink); }
   .info-card:hover .info-label, .info-card:hover .info-value { color: var(--paper); }
   .info-card:hover .info-icon { background: rgba(255,77,28,.2); color: var(--accent); }
+  .info-card:hover .info-arrow { color: var(--accent); transform: translateX(4px); }
   .info-icon { width: 48px; height: 48px; background: rgba(10,10,15,.06); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; transition: background .3s, color .3s; }
   .info-text { flex: 1; }
   .info-label { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: .3rem; transition: color .3s; }
   .info-value { font-family: 'Syne', sans-serif; font-weight: 600; font-size: .95rem; transition: color .3s; }
   .info-arrow { color: var(--muted); font-size: .8rem; transition: color .3s, transform .3s; }
-  .info-card:hover .info-arrow { color: var(--accent); transform: translateX(4px); }
 
   /* OFFICE HOURS */
   .hours-block { margin-top: 2rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-radius: 2px; }
@@ -137,7 +137,7 @@
   .service-option:hover { border-color: rgba(255,255,255,.3); color: var(--paper); }
   .service-option.selected { border-color: var(--accent); background: rgba(255,77,28,.12); color: var(--paper); }
 
-  /* Budget slider */
+  /* Budget options */
   .budget-options { display: flex; flex-direction: column; gap: .5rem; }
   .budget-option {
     padding: .8rem 1rem; border: 1px solid rgba(255,255,255,.1);
@@ -182,7 +182,6 @@
     position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
-  /* Stylised map grid */
   .map-grid {
     position: absolute; inset: 0;
     background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
@@ -239,7 +238,9 @@
   .footer-bottom { border-top: 1px solid rgba(255,255,255,.06); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; }
   .footer-bottom p { font-size: .8rem; }
 
-  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  /* Fade-up — visible by default so content shows even if JS fails */
+  .fade-up { opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .6s ease; }
+  .fade-up.hidden { opacity: 0; transform: translateY(24px); }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
 
   @media (max-width: 900px) {
@@ -260,13 +261,13 @@
 <div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
-  <a href="saas-website.html" class="logo">Build<span>Scale</span></a>
+  <a href="index.html" class="logo">Build<span>Scale</span></a>
   <ul class="nav-links">
-    <li><a href="saas-website.html#services">Services</a></li>
-    <li><a href="saas-website.html#pricing">Pricing</a></li>
-    <li><a href="saas-website.html#process">Process</a></li>
-    <li><a href="about-us.html">About</a></li>
-    <li><a href="contact-us.html" class="nav-cta active">Contact Us</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="about_us.html">About</a></li>
+    <li><a href="contact_us.html" class="nav-cta active">Contact Us</a></li>
   </ul>
 </nav>
 
@@ -279,11 +280,11 @@
     <p class="hero-lead">Whether you have a clear brief or just a rough idea — we're here to listen, advise, and build. Fill in the form or reach us directly below.</p>
 
     <div class="contact-info-cards">
-      <a href="/cdn-cgi/l/email-protection#741c1118181b3416011d181007171518115a1d1b" class="info-card">
+      <a href="mailto:hello@buildscale.io" class="info-card">
         <div class="info-icon">✉️</div>
         <div class="info-text">
           <div class="info-label">Email us</div>
-          <div class="info-value"><span class="__cf_email__" data-cfemail="254d4049494a6547504c494156464449400b4c4a">[email&#160;protected]</span></div>
+          <div class="info-value">hello@buildscale.io</div>
         </div>
         <div class="info-arrow">→</div>
       </a>
@@ -291,11 +292,11 @@
         <div class="info-icon">📞</div>
         <div class="info-text">
           <div class="info-label">Call us</div>
-          <div class="info-value">+91 98765 43210</div>
+          <div class="info-value">+91 8755786446</div>
         </div>
         <div class="info-arrow">→</div>
       </a>
-      <a href="#" class="info-card">
+      <a href="https://wa.me/918755786446" class="info-card">
         <div class="info-icon">💬</div>
         <div class="info-text">
           <div class="info-label">WhatsApp</div>
@@ -303,7 +304,7 @@
         </div>
         <div class="info-arrow">→</div>
       </a>
-      <a href="#" class="info-card">
+      <a href="contact_us.html" class="info-card">
         <div class="info-icon">📅</div>
         <div class="info-text">
           <div class="info-label">Book a call</div>
@@ -455,7 +456,7 @@
   </div>
 </section>
 
-<!-- MAP / OFFICES -->
+<!-- MAP / OFFICES
 <section class="map-section">
   <div class="fade-up">
     <p class="section-label">Our Offices</p>
@@ -492,7 +493,7 @@
       <div class="map-label"><strong>Mumbai HQ</strong>BKC, Maharashtra, India</div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- FAQ -->
 <section class="faq-section">
@@ -529,10 +530,11 @@
 </section>
 
 <!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="saas-website.html" class="logo">Build<span>Scale</span></a>
+      <a href="index.html" class="logo">Build<span>Scale</span></a>
       <p class="footer-tagline">We build websites that help small and large businesses grow — fast, beautiful, and built to last.</p>
       <div class="footer-socials">
         <a href="#" class="social-btn">𝕏</a>
@@ -541,31 +543,89 @@
         <a href="#" class="social-btn">yt</a>
       </div>
     </div>
-    <div class="footer-col"><h4>Services</h4><ul><li><a href="service-small-business.html">Small Business Sites</a></li><li><a href="service-ecommerce.html">E-Commerce</a></li><li><a href="service-saas.html">SaaS Platforms</a></li><li><a href="service-enterprise.html">Enterprise</a></li><li><a href="service-redesign.html">Redesigns</a></li></ul></div>
-    <div class="footer-col"><h4>Company</h4><ul><li><a href="about-us.html">About Us</a></li><li><a href="#">Our Work</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Press Kit</a></li></ul></div>
-    <div class="footer-col"><h4>Support</h4><ul><li><a href="contact-us.html">Contact</a></li><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="small_business_sites.html">Small Business Sites</a></li>
+        <li><a href="e-commerce.html">E-Commerce</a></li>
+        <li><a href="saas.html">SaaS Platforms</a></li>
+        <li><a href="enterprise.html">Enterprise</a></li>
+        <li><a href="redesign.html">Redesigns</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about_us.html">About Us</a></li>
+        <li><a href="#">Our Work</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms_conditions.html" class="current">Terms of Service</a></li>
+        <li><a href="terms_conditions.html" class="current">Privacy Policy</a></li>
+        <li><a href="terms_conditions.html" class="current">Cookie Policy</a></li>
+        <li><a href="terms_conditions.html" class="current">Refund Policy</a></li>
+        <li><a href="contact_us.html">Contact Us</a></li>
+      </ul>
+    </div>
   </div>
   <div class="footer-bottom">
     <p>© 2026 BuildScale. All rights reserved.</p>
-    <p>Made with care for growing businesses.</p>
+    <div class="footer-legal-links">
+      <a href="terms_conditions.html" class="current">Terms</a>
+      <a href="terms_conditions.html" class="current">Privacy</a>
+      <a href="terms_conditions.html" class="current">Cookies</a>
+      <a href="terms_conditions.html" class="current">Refunds</a>
+    </div>
   </div>
 </footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Cursor
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+  // ── Custom Cursor ──────────────────────────────────────────
   const cursor = document.getElementById('cursor');
   const cursorRing = document.getElementById('cursorRing');
   document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-    setTimeout(() => { cursorRing.style.left = e.clientX + 'px'; cursorRing.style.top = e.clientY + 'px'; }, 60);
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+    setTimeout(() => {
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top  = e.clientY + 'px';
+    }, 60);
   });
   document.querySelectorAll('a, button, .service-option, .budget-option, .faq-item').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; cursorRing.style.width = '52px'; cursorRing.style.height = '52px'; });
-    el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; cursorRing.style.width = '36px'; cursorRing.style.height = '36px'; });
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      cursorRing.style.width = '52px'; cursorRing.style.height = '52px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px'; cursor.style.height = '12px';
+      cursorRing.style.width = '36px'; cursorRing.style.height = '36px';
+    });
   });
 
-  // Multi-step form
+  // ── Scroll Fade-in ─────────────────────────────────────────
+  // Mark elements as hidden first, then reveal on scroll
+  document.querySelectorAll('.fade-up').forEach(el => el.classList.add('hidden'));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.remove('hidden');
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Multi-step form ────────────────────────────────────────
   let currentStep = 1;
+
   function goTo(step) {
     document.getElementById('step' + currentStep).classList.remove('active');
     document.getElementById('dot' + currentStep).classList.remove('active');
@@ -575,8 +635,17 @@
     document.getElementById('dot' + currentStep).classList.remove('done');
     document.getElementById('dot' + currentStep).classList.add('active');
   }
-  function submitForm() {
-    // ── Read all form values ───────────────────────────────
+
+  function toggleService(el) {
+    el.classList.toggle('selected');
+  }
+
+  function selectBudget(el) {
+    document.querySelectorAll('.budget-option').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  async function submitForm() {
     const firstName   = document.getElementById('firstName')?.value?.trim()   || '';
     const lastName    = document.getElementById('lastName')?.value?.trim()    || '';
     const email       = document.getElementById('email')?.value?.trim()       || '';
@@ -586,17 +655,12 @@
     const timeline    = document.getElementById('timeline')?.value            || 'Not specified';
     const heardFrom   = document.getElementById('heardFrom')?.value           || 'Not specified';
 
-    // Selected services (multiple can be chosen)
     const services = [...document.querySelectorAll('.service-option.selected')]
       .map(el => el.textContent.trim());
 
-    // Selected budget (only one)
     const budgetEl = document.querySelector('.budget-option.selected');
-    const budget   = budgetEl
-      ? budgetEl.childNodes[0].textContent.trim()
-      : 'Not specified';
+    const budget   = budgetEl ? budgetEl.childNodes[0].textContent.trim() : 'Not specified';
 
-    // ── Validation ────────────────────────────────────────
     if (!firstName || !email) {
       alert('Please fill in at least your name and email before submitting.');
       goTo(1);
@@ -608,32 +672,29 @@
       return;
     }
 
-    // ── Disable submit button ─────────────────────────────
     const btn = document.querySelector('.btn-submit');
     const origText = btn.textContent;
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    // ── Smart API URL (works with Live Server port 5500 too) ──
     const port = window.location.port;
     const API_URL = (window.location.protocol === 'file:' || port === '5500' || port === '5501')
       ? 'http://localhost:3000/api/enquiries'
       : '/api/enquiries';
 
-    // ── POST to backend ───────────────────────────────────
-    fetch(API_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName, lastName, email, company, phone,
-        services, budget, description, timeline, heardFrom,
-        source: 'contact-page'
-      }),
-    })
-    .then(res => res.json())
-    .then(data => {
+    try {
+      const res = await fetch(API_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName, lastName, email, company, phone,
+          services, budget, description, timeline, heardFrom,
+          source: 'contact-page'
+        }),
+      });
+      const data = await res.json();
+
       if (data.success) {
-        // Move to success state
         document.getElementById('step3').classList.remove('active');
         ['dot1','dot2','dot3'].forEach(id => {
           document.getElementById(id).classList.remove('active');
@@ -641,9 +702,8 @@
         });
         document.getElementById('formSuccess').classList.add('show');
 
-        // Show enquiry reference number
         const refEl = document.getElementById('enquiryRefDisplay');
-        if (refEl) {
+        if (refEl && data.enquiryNumber) {
           refEl.textContent = 'Your reference: ' + data.enquiryNumber;
           refEl.style.display = 'block';
         }
@@ -652,8 +712,7 @@
         btn.textContent = origText;
         btn.disabled = false;
       }
-    })
-    .catch(err => {
+    } catch (err) {
       console.error('Submit error:', err);
       const msg = err.message.includes('Failed to fetch')
         ? 'Cannot reach the server.\n\nMake sure:\n1. npm install is done\n2. node server.js is running\n3. Server is on http://localhost:3000'
@@ -661,20 +720,15 @@
       alert(msg);
       btn.textContent = origText;
       btn.disabled = false;
-    });
-  }
-  function toggleService(el) { el.classList.toggle('selected'); }
-  function selectBudget(el) {
-    document.querySelectorAll('.budget-option').forEach(b => b.classList.remove('selected'));
-    el.classList.add('selected');
+    }
   }
 
-  // FAQ
+  // ── FAQ Toggle ─────────────────────────────────────────────
   function toggleFaq(item) {
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
-
-  // Scroll fade
-  const observer = new In
+</script>
+</body>
+</html>
