@@ -20,7 +20,7 @@ const fs         = require('fs');
 const path       = require('path');
 
 const app  = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // ── Middleware ──────────────────────────────────────────────
 // Allow requests from any origin — including file:// (when support.html is opened directly)
@@ -34,8 +34,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve the support HTML file statically
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 
 // ── Simple JSON File Database ───────────────────────────────
 const DB_FILE = path.join(__dirname, 'tickets.json');
@@ -363,15 +364,18 @@ app.get('/admin', (req, res) => {
 });
 
 // ── Start server ───────────────────────────────────────────
+const HOST = process.env.WEBSITE_HOSTNAME || 'localhost';
 app.listen(PORT, () => {
   console.log('\n╔═══════════════════════════════════════════╗');
   console.log('║   BuildScale Support Backend — RUNNING   ║');
   console.log('╠═══════════════════════════════════════════╣');
-  console.log(`║  Server:  http://localhost:${PORT}           ║`);
-  console.log(`║  API:     http://localhost:${PORT}/api/tickets║`);
-  console.log(`║  Admin:   http://localhost:${PORT}/admin      ║`);
+  console.log(`║  Server:  http://${HOST}:${PORT}           ║`);
+  console.log(`║  API:     http://${HOST}:${PORT}/api/tickets║`);
+  console.log(`║  Admin:   http://${HOST}:${PORT}/admin      ║`);
   console.log('╚═══════════════════════════════════════════╝\n');
 });
+
+module.exports = app;
 
 // ══════════════════════════════════════════════════════════
 //  ADMIN DASHBOARD HTML (inline — no extra files needed)

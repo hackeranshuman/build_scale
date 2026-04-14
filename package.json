@@ -1,19 +1,23 @@
 {
   "name": "build_scale",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "BuildScale - Website builder for business growth",
+  "main": "Server.js",
   "scripts": {
+    "start": "node Server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hackeranshuman/build_scale.git"
   },
-  "keywords": [],
+  "keywords": ["website", "builder", "express", "nodejs"],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bugs": {
     "url": "https://github.com/hackeranshuman/build_scale/issues"
   },
@@ -21,7 +25,6 @@
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "stack": "^0.1.0",
     "uuid": "^13.0.0"
   }
 }
